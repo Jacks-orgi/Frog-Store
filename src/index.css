@@ -2,6 +2,12 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --main-green: #87a97b;
+  --main-light-grey: #9dacab;
+  --main-dark-grey: #3f413e;
+  --main-yellow: #ceb460;
+  --main-off-white: #f8f8f8;
+  --secondary-green: #597050;
 }
 
 * {
@@ -14,5 +20,5 @@ body {
   margin: 0;
   display: block;
   min-width: 320px;
-  background-color: #f9f9f9;
+  background-color: var(--main-off-white);
 }

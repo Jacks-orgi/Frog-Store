@@ -1,200 +1,196 @@
 .navbar {
-    background-color: #8cbf88;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo {
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    border-radius: 50%;
-  }
-  
-  .nav-items {
-    display: flex;
-  }
-  
-  .nav-button {
-    background: none;
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 1em;
-    margin-left: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .nav-button:hover {
-    background-color: #6fae6f;
-    transform: scale(1.1);
-  }
-  
-  .search-container {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .search-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 200px;
-    font-size: 1em;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .search-input:focus {
-    box-shadow: 0 0 8px rgba(0, 128, 0, 0.5);
-  }
+  background-color: var(--main-green);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  width: 100%;
+  max-width: 55%;
+  margin: 0 auto;
+  border-radius: 0% 0% 10px 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  .nav-dropdown-container {
-    position: relative;
-  }
+.logo {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+}
 
-  .nav-dropdown {
-    background-color: #8cbf88;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 30px;
-  }
+.nav-items {
+  display: flex;
+}
 
-  .nav-dropdown:hover {
-    background-color: #5a9356;
-  }
+.nav-button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 550;
+  margin-left: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-  .nav-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #8cbf88;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-    overflow: hidden;
-    z-index: 10;
-  }
+.nav-button:hover {
+  background-color: var(--secondary-green);
+  transform: scale(1.1);
+}
 
-  .nav-dropdown-menu button {
-    background-color: #8cbf88;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-  }
+.search-container {
+  display: flex;
+  justify-content: center;
+}
 
-  .nav-dropdown-menu button:hover {
-    background-color: #5a9356;
-  }
+.search-input {
+  padding: 10px;
+  border: 0px;
+  border-radius: 5px;
+  width: 200px;
+  font-size: 1em;
+  transition: box-shadow 0.3s ease;
+}
 
-  .nav-dropdown option {
-    background-color: #8cbf88;
-    color: white;
-    padding: 10px;
-  }
+.search-input:focus {
+  box-shadow: 0 0 8px rgba(0, 128, 0, 0.5);
+}
 
-  
-  .nav-dropdown option:hover,
-  .nav-dropdown option:focus,
-  .nav-dropdown option:checked,
-  .nav-dropdown option:active {
-    background-color: #5a9356 !important;
-    color: white !important;
-    box-shadow: 0 0 10px 100px #5a9356 inset !important;
-    -webkit-text-fill-color: white !important;
-  }
+.nav-dropdown-container {
+  position: relative;
+}
 
-  .nav-item-with-dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .nav-item-with-dropdown .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #8cbf88;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    z-index: 10;
-    min-width: 150px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
-  }
-  
-  .nav-item-with-dropdown:hover .dropdown-menu {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  .dropdown-menu button {
-    width: 100%;
-    padding: 10px 15px;
-    border: none;
-    background-color: #8cbf88;
-    color: white;
-    text-align: left;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .dropdown-menu button:hover {
-    background-color: #5a9356;
-  }
-  
-  .nav-item-with-dropdown:hover .dropdown-button {
-    display: block;
-  }
-  
-  
-  .nav-item-with-dropdown .dropdown-button {
-    display: none;
-  }
-  
-  
-  .nav-item-with-dropdown:hover .dropdown-menu {
-    display: block;
-  }
-  
-  
-  .nav-item-with-dropdown .dropdown-menu {
-    top: 100%;
-    left: 0;
-    margin-top: 5px;
-  }
+.nav-dropdown {
+  background-color: var(--main-green);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 30px;
+}
 
-  
-  .nav-item-with-dropdown::after {
-    content: '';
-    position: absolute;
-    height: 20px;
-    width: 100%;
-    bottom: -10px;
-    left: 0;
-  }
+.nav-dropdown:hover {
+  background-color: var(--secondary-green);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--main-green);
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.nav-dropdown-menu button {
+  background-color: var(--main-green);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.nav-dropdown-menu button:hover {
+  background-color: var(--secondary-green);
+}
+
+.nav-dropdown option {
+  background-color: var(--main-green);
+  color: white;
+  padding: 10px;
+}
+
+.nav-dropdown option:hover,
+.nav-dropdown option:focus,
+.nav-dropdown option:checked,
+.nav-dropdown option:active {
+  background-color: var(--secondary-green) !important;
+  color: white !important;
+  box-shadow: 0 0 10px 100px var(--secondary-green) inset !important;
+  -webkit-text-fill-color: white !important;
+}
+
+.nav-item-with-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-item-with-dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--main-green);
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 10;
+  min-width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.nav-item-with-dropdown:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-menu button {
+  width: 100%;
+  padding: 10px 15px;
+  border: none;
+  background-color: var(--main-green);
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu button:hover {
+  background-color: var(--secondary-green);
+}
+
+.nav-item-with-dropdown:hover .dropdown-button {
+  display: block;
+}
+
+.nav-item-with-dropdown .dropdown-button {
+  display: none;
+}
+
+.nav-item-with-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.nav-item-with-dropdown .dropdown-menu {
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+}
+
+.nav-item-with-dropdown::after {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 100%;
+  bottom: -10px;
+  left: 0;
+}

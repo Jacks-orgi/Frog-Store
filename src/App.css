@@ -1,10 +1,10 @@
 .app {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f3f4f6;
-  color: #333;
+  background-color: var(--main-off-white);
+  color: var(--main-dark-grey);
   align-items: center;
   width: 100%;
 }

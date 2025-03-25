@@ -3,7 +3,7 @@
 }
 
 .dropdown-button {
-  background-color: #8cbf88;
+  background-color: var(--main-green);
   color: white;
   border: none;
   padding: 10px 15px;
@@ -14,14 +14,14 @@
 }
 
 .dropdown-button:hover {
-  background-color: #5a9356;
+  background-color: var(--secondary-green);
 }
 
 .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #8cbf88;
+  background-color: var(--main-green);
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -29,7 +29,7 @@
 }
 
 .dropdown-menu button {
-  background-color: #8cbf88;
+  background-color: var(--main-green);
   color: white;
   border: none;
   padding: 10px 15px;
@@ -41,5 +41,5 @@
 }
 
 .dropdown-menu button:hover {
-  background-color: #5a9356;
+  background-color: var(--secondary-green);
 }
