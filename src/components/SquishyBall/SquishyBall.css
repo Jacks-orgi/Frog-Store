@@ -1,0 +1,29 @@
+.squishy-ball {
+    width: 150px; /* Increased from 100px */
+    height: 150px; /* Increased from 100px */
+    background-color: #2d5a27;
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.5s ease;
+    margin: 0 auto 20px; /* Changed from margin: 20px auto */
+}
+
+.ball-highlight {
+    position: absolute;
+    width: 45px; /* Increased from 30px */
+    height: 45px; /* Increased from 30px */
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    top: 20%;
+    left: 20%;
+}
+
+.squishy-ball.squished {
+    transform: scale(1.2, 0.8);
+    background-color: #3a7433;
+}
+
+.squishy-ball:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}

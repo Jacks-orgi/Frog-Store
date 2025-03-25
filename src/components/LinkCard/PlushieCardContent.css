@@ -1,0 +1,155 @@
+.plushie-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: 20px;
+}
+
+.plushie {
+  width: 160px; /* Increased width */
+  height: 160px; /* Made height equal to width for a perfect circle */
+  background-color: #6fae6f;
+  border-radius: 50%; /* Ensures the body is perfectly round */
+  position: relative;
+  box-sizing: border-box; /* Ensures padding/margin doesn't distort the shape */
+}
+
+/* Left stripe */
+.plushie::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  width: 8px;
+  height: 60%;
+  background-color: #3a86ff;
+  border-radius: 4px;
+  transform: rotate(-15deg); /* Tilts the stripe outward */
+  opacity: 0.6;
+  z-index: 1;
+}
+
+/* Right stripe */
+.plushie::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  right: 15%;
+  width: 8px;
+  height: 60%;
+  background-color: #3a86ff;
+  border-radius: 4px;
+  transform: rotate(15deg); /* Tilts the stripe outward */
+  opacity: 0.6;
+  z-index: 1;
+}
+
+/* Move the belly styling to a new class to avoid pseudo-element conflicts */
+.plushie-belly {
+  content: '';
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60%;
+  background-color: #8fd48a;
+  border-radius: 50%;
+}
+
+.frog-eyes {
+  position: absolute;
+  top: -20px; /* Raised eyes */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 30px; /* Increased gap between eyes */
+  z-index: 2;
+}
+
+.googly-eye {
+  width: 40px; /* Increased eye size */
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #333;
+}
+
+.googly-eye:last-child {
+  transform: rotate(10deg);
+}
+
+.googly-eye-pupil {
+  width: 18px;
+  height: 18px;
+  background-color: #333;
+  border-radius: 50%;
+  position: absolute;
+  transition: transform 0.1s ease;
+}
+
+.frog-mouth {
+  position: absolute;
+  bottom: 20px; /* Adjusted position */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px; /* Wider mouth */
+  height: 20px;
+  border: 2px solid #333;
+  border-top: none;
+  border-radius: 0 0 50px 50px;
+  background-color: transparent;
+  z-index: 2;
+}
+
+/* Adjust leg positioning */
+.frog-legs {
+  position: absolute;
+  bottom: -20px; /* Moved legs down */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 50px; /* Increased gap between legs */
+  z-index: 2;
+  height: 30px; /* Added fixed height */
+}
+
+.leg {
+  width: 15px; /* Slightly thicker legs */
+  height: 40px; /* Longer legs */
+  background-color: #6fae6f;
+  border-radius: 10px;
+  position: relative;
+  transform: rotate(15deg); /* Adjusted angle */
+}
+
+.leg:last-child {
+  transform: rotate(-15deg);
+}
+
+.toe {
+  width: 15px;
+  height: 15px;
+  background-color: #ff9f45; /* Orange toes */
+  border-radius: 50%;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid #445543;
+}
+
+/* Add margin to text to prevent overlap */
+.plushie-card-content p {
+  color: #555;
+  font-size: 1.1em;
+  text-align: center;
+  margin: 30px 0 0 0; /* Added top margin */
+  z-index: 1; /* Ensure text stays on top */
+}

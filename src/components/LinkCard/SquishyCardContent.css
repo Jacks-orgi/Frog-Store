@@ -1,0 +1,12 @@
+.squishy-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Reduced from 20px */
+    margin-top: -20px; /* Added negative margin to move content up */
+}
+
+.squishy-card-content p {
+    color: #555;
+    font-size: 1.1em;
+}
