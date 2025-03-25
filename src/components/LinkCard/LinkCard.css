@@ -1,10 +1,10 @@
 .link-card {
     background-color: #ffffff;
-    padding: 80px; /* Doubled from 40px */
+    padding: 80px; 
     text-align: center;
     border-radius: 10px;
     width: 45%;
-    height: 300px; /* Added explicit height */
+    height: 300px; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;

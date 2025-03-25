@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Changed from space-between */
+  justify-content: flex-start; 
 }
 
 .plushie {
@@ -12,12 +12,11 @@
   border-radius: 50%;
   position: relative;
   box-sizing: border-box;
-  margin-bottom: 35px; /* Add margin to account for legs */
+  margin-bottom: 35px; 
   flex-shrink: 0;
-  padding-bottom: 30px; /* Add padding to include legs in container */
+  padding-bottom: 30px; 
 }
 
-/* Left stripe */
 .plushie::before {
   content: '';
   position: absolute;
@@ -27,12 +26,12 @@
   height: 60%;
   background-color: #3a86ff;
   border-radius: 4px;
-  transform: rotate(-15deg); /* Tilts the stripe outward */
+  transform: rotate(-15deg); 
   opacity: 0.6;
   z-index: 1;
 }
 
-/* Right stripe */
+
 .plushie::after {
   content: '';
   position: absolute;
@@ -42,12 +41,12 @@
   height: 60%;
   background-color: #3a86ff;
   border-radius: 4px;
-  transform: rotate(15deg); /* Tilts the stripe outward */
+  transform: rotate(15deg); 
   opacity: 0.6;
   z-index: 1;
 }
 
-/* Move the belly styling to a new class to avoid pseudo-element conflicts */
+
 .plushie-belly {
   content: '';
   position: absolute;
@@ -62,16 +61,16 @@
 
 .frog-eyes {
   position: absolute;
-  top: -20px; /* Raised eyes */
+  top: -20px; 
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 30px; /* Increased gap between eyes */
+  gap: 30px; 
   z-index: 2;
 }
 
 .googly-eye {
-  width: 40px; /* Increased eye size */
+  width: 40px; 
   height: 40px;
   background-color: white;
   border-radius: 50%;
@@ -97,10 +96,10 @@
 
 .frog-mouth {
   position: absolute;
-  bottom: 20px; /* Adjusted position */
+  bottom: 20px; 
   left: 50%;
   transform: translateX(-50%);
-  width: 50px; /* Wider mouth */
+  width: 50px; 
   height: 20px;
   border: 2px solid #333;
   border-top: none;
@@ -109,25 +108,24 @@
   z-index: 2;
 }
 
-/* Adjust leg positioning */
 .frog-legs {
   position: absolute;
   bottom: -20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 50px; /* Increased gap between legs */
+  gap: 50px; 
   z-index: 2;
-  height: 30px; /* Added fixed height */
+  height: 30px; 
 }
 
 .leg {
-  width: 15px; /* Slightly thicker legs */
-  height: 40px; /* Longer legs */
+  width: 15px; 
+  height: 40px; 
   background-color: #6fae6f;
   border-radius: 10px;
   position: relative;
-  transform: rotate(15deg); /* Adjusted angle */
+  transform: rotate(15deg); 
 }
 
 .leg:last-child {
@@ -137,7 +135,7 @@
 .toe {
   width: 15px;
   height: 15px;
-  background-color: #ff9f45; /* Orange toes */
+  background-color: #ff9f45; 
   border-radius: 50%;
   position: absolute;
   bottom: -5px;
@@ -146,7 +144,6 @@
   border: 1px solid #445543;
 }
 
-/* Add margin to text to prevent overlap */
 .plushie-card-content p {
   color: #555;
   font-size: 1.1em;
