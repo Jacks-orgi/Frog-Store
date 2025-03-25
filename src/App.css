@@ -1,42 +1,213 @@
-#root {
-  max-width: 1280px;
+/* General Styles */
+.app {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  color: #333;
+  align-items: center;
+  width: 100%;
+}
+
+/* Content Wrapper */
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #8cbf88;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-items {
+  display: flex;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.nav-button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-left: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.card {
-  padding: 2em;
+.nav-button:hover {
+  background-color: #6fae6f;
+  transform: scale(1.1);
 }
 
-.read-the-docs {
-  color: #888;
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  font-size: 1em;
+  transition: box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 8px rgba(0, 128, 0, 0.5);
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #e8f5e9, #f3f4f6);
+  text-align: center;
+  padding: 50px 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  color: #6fae6f;
+}
+
+.header p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* Links Section */
+.links-section {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.link-card {
+  background-color: #ffffff;
+  padding: 40px;
+  text-align: center;
+  border-radius: 10px;
+  width: 45%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.link-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.link-card a {
+  color: #6fae6f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.link-card a:hover {
+  text-decoration: underline;
+}
+
+/* Founders Section */
+.founders-section {
+  text-align: center;
+  margin: 40px 0;
+  padding: 20px 0;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.founders-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #6fae6f;
+}
+
+.founders-images {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.founder-card {
+  background-color: #ffffff;
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.founder-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Mission Section */
+.mission-section {
+  text-align: center;
+  padding: 40px;
+  background-color: #ffffff;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mission-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #6fae6f;
+}
+
+.mission-section p {
+  font-size: 1em;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+/* Footer */
+.footer {
+  background-color: #8cbf88;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  width: 100%;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
 }
