@@ -1,0 +1,36 @@
+.founders-section {
+    text-align: center;
+    margin: 40px 0;
+    padding: 20px 0;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .founders-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #6fae6f;
+  }
+  
+  .founders-images {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .founder-card {
+    background-color: #ffffff;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .founder-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
