@@ -24,10 +24,10 @@ function App() {
                 <Header />
                 <div className="content">
                   <div className="links-section">
-                    <LinkCard title="Plushies" link="/shop">
+                    <LinkCard title="Plushies" filter="plushies">
                       <PlushieCardContent />
                     </LinkCard>
-                    <LinkCard title="Stress Helpers" link="/shop">
+                    <LinkCard title="Stress Helpers" filter="stress-helpers">
                       <SquishyCardContent />
                     </LinkCard>
                   </div>

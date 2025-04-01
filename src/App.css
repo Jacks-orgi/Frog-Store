@@ -26,3 +26,17 @@
   width: 100%;
   max-width: 1200px;
 }
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .content {
+    padding: 10px;
+  }
+
+  .links-section {
+    flex-direction: column;
+    gap: 15px;
+    margin: 10px 0;
+    padding: 10px;
+  }
+}

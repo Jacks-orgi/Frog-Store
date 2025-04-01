@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard/ProductCard';
 import './Shop.css';
@@ -10,23 +10,44 @@ const products = [
   { id: 4, name: 'Stress Ball 2', price: 8.0, status: 'In Stock', category: 'stress-helpers', image: null },
 ];
 
+const categories = [
+  { id: 'all', label: 'All Products' },
+  { id: 'plushies', label: 'Plushies' },
+  { id: 'stress-helpers', label: 'Stress Helpers' },
+];
+
 const Shop = () => {
   const [searchParams] = useSearchParams();
-  const filter = searchParams.get('filter') || 'all';
   const [sortOrder, setSortOrder] = useState('price-asc');
+  const urlFilter = searchParams.get('filter') || 'all';
+  // Initialize selectedCategories based on URL parameter
+  const [selectedCategories, setSelectedCategories] = useState([urlFilter]);
 
-  const filteredProducts = filter === 'all'
+  // Update selectedCategories when URL changes
+  useEffect(() => {
+    setSelectedCategories([urlFilter]);
+  }, [urlFilter]);
+
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategories(prev => {
+      if (categoryId === 'all') {
+        return ['all'];
+      }
+      const newCategories = prev.filter(id => id !== 'all');
+      if (prev.includes(categoryId)) {
+        return newCategories.filter(id => id !== categoryId);
+      }
+      return [...newCategories, categoryId];
+    });
+  };
+
+  const filteredProducts = selectedCategories.includes('all')
     ? products
-    : products.filter((product) => product.category === filter);
+    : products.filter(product => selectedCategories.includes(product.category));
 
-  
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     return sortOrder === 'price-asc' ? a.price - b.price : b.price - a.price;
   });
-
-  const handleSort = (option) => {
-    setSortOrder(option);
-  };
 
   return (
     <div className="shop-page">
@@ -37,11 +58,28 @@ const Shop = () => {
             {sortOrder === 'price-asc' ? 'Price: Low to High' : 'Price: High to Low'}
           </span>
         </div>
-        <div className="sort-dropdown">
-          <button className="sort-button">Sort by Price</button>
-          <div className="dropdown-menu">
-            <button onClick={() => handleSort('price-asc')}>Price: Low to High</button>
-            <button onClick={() => handleSort('price-desc')}>Price: High to Low</button>
+        <div className="header-controls">
+          <div className="sort-dropdown">
+            <button className="sort-button">Sort by Price</button>
+            <div className="dropdown-menu">
+              <button onClick={() => setSortOrder('price-asc')}>Price: Low to High</button>
+              <button onClick={() => setSortOrder('price-desc')}>Price: High to Low</button>
+            </div>
+          </div>
+          <div className="filter-dropdown">
+            <button className="filter-button">Filter Categories</button>
+            <div className="dropdown-menu checkbox-menu">
+              {categories.map(category => (
+                <label key={category.id} className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.includes(category.id)}
+                    onChange={() => handleCategoryChange(category.id)}
+                  />
+                  {category.label}
+                </label>
+              ))}
+            </div>
           </div>
         </div>
       </div>

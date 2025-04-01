@@ -10,6 +10,8 @@
   justify-content: space-between;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  outline: none; /* Remove focus outline */
 }
 
 .link-card:hover {
@@ -17,12 +19,31 @@
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-.link-card a {
+.link-card:focus {
+  box-shadow: 0 0 0 3px var(--secondary-green);
+}
+
+.link-text {
   color: var(--secondary-green);
   text-decoration: none;
   font-weight: bold;
 }
 
-.link-card a:hover {
+.link-card:hover .link-text {
   text-decoration: underline;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .link-card {
+    width: 100%;
+    padding: 20px;
+    height: auto;
+    min-height: 250px;
+  }
+
+  .links-section {
+    flex-direction: column;
+    padding: 10px;
+  }
 }

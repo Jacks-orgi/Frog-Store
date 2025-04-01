@@ -58,7 +58,7 @@ const PlushieCardContent = () => {
           </div>
         </div>
       </div>
-      <p>Meet our adorable tree frog plushie!</p>
+      <p>Meet our adorable frog plushie!</p>
     </div>
   );
 };
