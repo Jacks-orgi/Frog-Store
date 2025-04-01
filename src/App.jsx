@@ -10,6 +10,7 @@ import SquishyCardContent from './components/LinkCard/SquishyCardContent';
 import Mission from './components/Mission/Mission';
 import Navbar from './components/Navbar/Navbar';
 import { DropdownProvider } from './context/DropdownContext';
+import ProductPage from './pages/ProductPage'; // Import the new ProductPage component
 import Shop from './pages/Shop';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
               </>
             } />
             <Route path="/shop" element={<Shop />} />
+            <Route path="/product/:id" element={<ProductPage />} /> {/* New Product Page Route */}
             <Route path="/contact" element={<div>Contact Page</div>} />
           </Routes>
           <Footer />
