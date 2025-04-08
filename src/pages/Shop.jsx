@@ -28,16 +28,23 @@ const Shop = () => {
     setSelectedCategories([urlFilter]);
   }, [urlFilter]);
 
+
+
+
   const handleCategoryChange = (categoryId) => {
     setSelectedCategories(prev => {
       if (categoryId === 'all') {
-        return ['all'];
+        return prev.includes('all') ? [] : categories.map(cat => cat.id);
       }
+
       const newCategories = prev.filter(id => id !== 'all');
       if (prev.includes(categoryId)) {
-        return newCategories.filter(id => id !== categoryId);
+        const filtered = newCategories.filter(id => id !== categoryId);
+        return filtered.length === 0 ? [] : filtered;
       }
-      return [...newCategories, categoryId];
+      
+      const updated = [...newCategories, categoryId];
+      return updated.length === categories.length - 1 ? ['all', ...updated] : updated;
     });
   };
 
