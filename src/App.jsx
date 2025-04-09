@@ -11,6 +11,7 @@ import Mission from './components/Mission/Mission';
 import Navbar from './components/Navbar/Navbar';
 import { DropdownProvider } from './context/DropdownContext';
 import Shop from './pages/Shop';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -37,7 +38,7 @@ function App() {
               </>
             } />
             <Route path="/shop" element={<Shop />} />
-            <Route path="/contact" element={<div>Contact Page</div>} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
           <Footer />
         </div>
