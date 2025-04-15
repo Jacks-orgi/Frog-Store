@@ -11,9 +11,17 @@ const ProductPage = () => {
     name: 'Item Name Goes Here',
     price: 12.10,
     status: 'In Stock',
-    description: 'Detailed description of the product goes here.',
+    description:
+      'Filet mignon doner landjaeger rump short loin tenderloin. Tongue landjaeger jerky pancetta hamburger buffalo flank capicola salami short ribs venison bresaola.',
     images: ['image1.png', 'image2.png', 'image3.png'], // Replace with actual image URLs
   };
+
+  const relatedProducts = [
+    { id: 2, name: 'Product Name', price: 12.0, status: 'In Stock', image: null },
+    { id: 3, name: 'Product Name', price: 12.0, status: 'Sold Out', image: null },
+    { id: 4, name: 'Product Name', price: 12.0, status: 'In Stock', image: null },
+    { id: 5, name: 'Product Name', price: 12.0, status: 'In Stock', image: null },
+  ];
 
   return (
     <div className="product-page">
@@ -40,6 +48,21 @@ const ProductPage = () => {
         {product.images.map((image, index) => (
           <img key={index} src={image} alt={`Thumbnail ${index + 1}`} className="product-thumbnail" />
         ))}
+      </div>
+      <div className="related-products">
+        <h2>You might also like</h2>
+        <div className="product-grid">
+          {relatedProducts.map((relatedProduct) => (
+            <div key={relatedProduct.id} className="product-card">
+              <div className="product-image">{relatedProduct.image || 'Image'}</div>
+              <p className="product-name">{relatedProduct.name}</p>
+              <p className="product-price">£{relatedProduct.price.toFixed(2)}</p>
+              <p className={`product-status ${relatedProduct.status.toLowerCase()}`}>
+                {relatedProduct.status}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
