@@ -29,7 +29,7 @@ const PlushieCardContent = () => {
   return (
     <div className="plushie-card-content">
       <div className="plushie">
-      <div className="plushie-belly"></div>
+        <div className="plushie-belly"></div>
         <div className="frog-eyes">
           <div className="googly-eye">
             <div
@@ -58,7 +58,7 @@ const PlushieCardContent = () => {
           </div>
         </div>
       </div>
-      <p>Meet our adorable frog plushie!</p>
+      <p>Meet our handmade frog friends, ready for hugs and adventures!</p>
     </div>
   );
 };

@@ -5,7 +5,7 @@ const SquishyCardContent = () => {
   return (
     <div className="squishy-card-content">
       <SquishyBall />
-      <p>Squeeze me to relieve stress!</p>
+      <p>Handcrafted stress toys for moments of calm and comfort!</p>
     </div>
   );
 };

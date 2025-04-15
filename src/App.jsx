@@ -16,7 +16,7 @@ import Shop from './pages/Shop';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/Frog-Store">
       <DropdownProvider>
         <div className="app">
           <Navbar />
