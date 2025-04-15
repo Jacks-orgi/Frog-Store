@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import ProductCard from '../components/ProductCard/ProductCard';
-import './Shop.css';
-
-const products = [
-  { id: 1, name: 'Plushie 1', price: 12.0, status: 'In Stock', category: 'plushies', image: null },
-  { id: 2, name: 'Stress Ball 1', price: 10.0, status: 'Sold Out', category: 'stress-helpers', image: null },
-  { id: 3, name: 'Plushie 2', price: 15.0, status: 'In Stock', category: 'plushies', image: null },
-  { id: 4, name: 'Stress Ball 2', price: 8.0, status: 'In Stock', category: 'stress-helpers', image: null },
-];
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import ProductCard from '../components/ProductCard/ProductCard'
+import './Shop.css'
+import axios from "axios";
 
 const categories = [
   { id: 'all', label: 'All Products' },
@@ -20,24 +14,39 @@ const Shop = () => {
   const [searchParams] = useSearchParams();
   const [sortOrder, setSortOrder] = useState('price-asc');
   const urlFilter = searchParams.get('filter') || 'all';
-  // Initialize selectedCategories based on URL parameter
   const [selectedCategories, setSelectedCategories] = useState([urlFilter]);
 
-  // Update selectedCategories when URL changes
+  const [products, setProducts] = useState([]);
+
+  const fetchAPI = async () => {
+    const response = await axios.get("https://2-12.co.uk/~ddar/getProducts.php");
+    setProducts(response.data);
+  };
+
+  useEffect(() => {
+    fetchAPI();
+  }, []);
+
+
   useEffect(() => {
     setSelectedCategories([urlFilter]);
   }, [urlFilter]);
 
+
   const handleCategoryChange = (categoryId) => {
     setSelectedCategories(prev => {
       if (categoryId === 'all') {
-        return ['all'];
+        return prev.includes('all') ? [] : categories.map(cat => cat.id);
       }
+
       const newCategories = prev.filter(id => id !== 'all');
       if (prev.includes(categoryId)) {
-        return newCategories.filter(id => id !== categoryId);
+        const filtered = newCategories.filter(id => id !== categoryId);
+        return filtered.length === 0 ? [] : filtered;
       }
-      return [...newCategories, categoryId];
+      
+      const updated = [...newCategories, categoryId];
+      return updated.length === categories.length - 1 ? ['all', ...updated] : updated;
     });
   };
 
@@ -84,9 +93,11 @@ const Shop = () => {
         </div>
       </div>
       <div className="product-grid">
-        {sortedProducts.map((product) => (
-          <ProductCard key={product.id} {...product} />
-        ))}
+        {sortedProducts.length === 0
+          ? <p>No products available in this category</p>
+          : sortedProducts.map((product) => (
+            <ProductCard key={product.id} {...product} />
+          ))}
       </div>
     </div>
   );
