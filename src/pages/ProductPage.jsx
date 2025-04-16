@@ -1,38 +1,48 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import './ProductPage.css';
+import axios from 'axios';
 
 const ProductPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
-  // Mock product data (replace with actual data fetching logic)
-  const product = {
-    id,
-    name: 'Item Name Goes Here',
-    price: 12.10,
-    status: 'In Stock',
-    description:
-      'Filet mignon doner landjaeger rump short loin tenderloin. Tongue landjaeger jerky pancetta hamburger buffalo flank capicola salami short ribs venison bresaola.',
-    images: ['image1.png', 'image2.png', 'image3.png'], // Replace with actual image URLs
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await axios.get('https://2-12.co.uk/~ddar/getProducts.php');
+      const allProducts = response.data;
+      const current = allProducts.find(p => p.id === id);
+  
+      setProduct(current);
+  
+      if (current && current.related_products) {
+        const relatedIds = JSON.parse(current.related_products).map(Number);
+        const relatedCurrent = allProducts.filter(p => relatedIds.includes(Number(p.id)));
+        setRelatedProducts(relatedCurrent);
+      }
+    };
+  
+    fetchProducts();
+  }, [id]);
+  
+  const handleClick = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
-  const relatedProducts = [
-    { id: 2, name: 'Product Name', price: 12.0, status: 'In Stock', image: null },
-    { id: 3, name: 'Product Name', price: 12.0, status: 'Sold Out', image: null },
-    { id: 4, name: 'Product Name', price: 12.0, status: 'In Stock', image: null },
-    { id: 5, name: 'Product Name', price: 12.0, status: 'In Stock', image: null },
-  ];
+  if (!product) return <div className="product-page"><p>Loading...</p></div>;
 
   return (
     <div className="product-page">
       <div className="product-main">
         <div className="product-image-container">
-          <img src={product.images[0]} alt={product.name} className="product-main-image" />
+          {product.image_url ? <img src={product.image_url} alt={product.name} /> : <span>No Image Available</span>}
         </div>
         <div className="product-info">
           <h1>{product.name}</h1>
           <p className={`product-status ${product.status.toLowerCase()}`}>{product.status}</p>
-          <p className="product-price">£{product.price.toFixed(2)}</p>
+          <p className="product-price">£{product.price}</p>
           <div className="product-actions">
             <label>
               Quantity:
@@ -41,22 +51,20 @@ const ProductPage = () => {
             <button className="buy-now">Buy Now</button>
             <button className="add-to-basket">Add to Basket</button>
           </div>
-          <p className="product-description">{product.description}</p>
+          <p className="product-description">{product.description || 'No description available.'}</p>
         </div>
       </div>
-      <div className="product-thumbnails">
-        {product.images.map((image, index) => (
-          <img key={index} src={image} alt={`Thumbnail ${index + 1}`} className="product-thumbnail" />
-        ))}
-      </div>
+
       <div className="related-products">
         <h2>You might also like</h2>
         <div className="product-grid">
           {relatedProducts.map((relatedProduct) => (
-            <div key={relatedProduct.id} className="product-card">
-              <div className="product-image">{relatedProduct.image || 'Image'}</div>
+            <div key={relatedProduct.id} className="product-card" onClick={() => handleClick(relatedProduct.id)} role="button" tabIndex={0}>
+              <div className="product-image">
+                {relatedProduct.image_url ? <img src={relatedProduct.image_url} alt={relatedProduct.name} /> : <span>No Image Available</span>}
+              </div>
               <p className="product-name">{relatedProduct.name}</p>
-              <p className="product-price">£{relatedProduct.price.toFixed(2)}</p>
+              <p className="product-price">£{relatedProduct.price}</p>
               <p className={`product-status ${relatedProduct.status.toLowerCase()}`}>
                 {relatedProduct.status}
               </p>

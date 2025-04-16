@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductCard.css';
 
-const ProductCard = ({ id, image, name, price, status }) => {
+const ProductCard = ({ id, image_url, name, price, status }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -11,7 +11,9 @@ const ProductCard = ({ id, image, name, price, status }) => {
 
   return (
     <div className="product-card" onClick={handleClick} role="button" tabIndex={0}>
-      <div className="product-image">{image ? <img src={image} alt={name} /> : 'Image'}</div>
+      <div className="product-image">
+        {image_url ? <img src={image_url} alt={name} /> : <span>No Image Available</span>}
+      </div>
       <div className="product-details">
         <p className="product-name">{name || 'No Name'}</p>
         <p className="product-price">£{price || '0.00'}</p>
