@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS products;
+
+CREATE TABLE products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  image_url TEXT,
+  description VARCHAR(255) NOT NULL,
+  related_products JSON
+);
+
+INSERT INTO products (name, price, status, category, image_url, description, related_products) VALUES
+('Wireless Mouse', 25.99, 'In Stock', 'Electronics', 'https://2-12.co.uk/~ddar/FrogStore/assets/frog.jpg', 'A great product for everyday use.', '[2, 3, 4, 5]'),
+('Bluetooth Headset', 49.99, 'Sold Out', 'Electronics', 'https://2-12.co.uk/~ddar/FrogStore/assets/frog.jpg', 'A great product for everyday use.', '[1, 3, 4, 5]'),
+('Water Bottle', 12.50, 'In Stock', 'Accessories', 'https://2-12.co.uk/~ddar/FrogStore/assets/frog.jpg', 'A great product for everyday use.', '[1, 2, 4, 5]'),
+('Hoodie', 34.00, 'In Stock', 'Clothing', 'https://2-12.co.uk/~ddar/FrogStore/assets/frog.jpg', 'A great product for everyday use.', '[1, 2, 3, 5]'),
+('Laptop Stand', 29.99, 'Sold Out', 'Office', 'https://2-12.co.uk/~ddar/FrogStore/assets/frog.jpg', 'A great product for everyday use.', '[1, 2, 3, 4]'),
+('LED Desk Lamp', 19.99, 'In Stock', 'Home','https://2-12.co.uk/~ddar/FrogStore/assets/frog.jpg', 'A great product for everyday use.', '[1, 2, 3, 4]'),
+('Running Shoes', 59.99, 'In Stock', 'Footwear', 'https://2-12.co.uk/~ddar/FrogStore/assets/frog.jpg', 'A great product for everyday use.', '[1, 2, 3, 4]');

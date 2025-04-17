@@ -25,6 +25,7 @@ const Navbar = () => {
           </div>
         </div>
         <button className="nav-button" onClick={() => navigate('/contact')}>Contact</button>
+        <button className="nav-button" onClick={() => navigate('/login')}>Login</button>
       </div>
       <div className="search-container">
         <input type="text" className="search-input" placeholder="Search..." />

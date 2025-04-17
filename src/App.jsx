@@ -13,7 +13,9 @@ import { DropdownProvider } from './context/DropdownContext';
 import Contact from './pages/Contact';
 import ProductPage from './pages/ProductPage';
 import Shop from './pages/Shop';
- 
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+
 function App() {
   return (
     <Router basename="/Frog-Store">
@@ -41,6 +43,8 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<LoginPage />} />           
+            <Route path="/register" element={<RegisterPage />} />
           </Routes>
           <Footer />
         </div>
