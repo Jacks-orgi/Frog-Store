@@ -11,21 +11,42 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await axios.get('https://2-12.co.uk/~ddar/getProducts.php');
-      const allProducts = response.data;
-      const current = allProducts.find(p => p.id === id);
+      try {
+        const res = await axios.get("https://2-12.co.uk/~ddar/FrogStore/api/get_products.php");
+        const data = res.data;
   
-      setProduct(current);
+        const allProducts = data.products;
+        const current = allProducts.find(p => p.id === id);
+        setProduct(current);
+        console.log(current);
   
-      if (current && current.related_products) {
-        const relatedIds = JSON.parse(current.related_products).map(Number);
-        const relatedCurrent = allProducts.filter(p => relatedIds.includes(Number(p.id)));
-        setRelatedProducts(relatedCurrent);
+        console.log("Getting Related PRODUCTS");
+
+        const relatedRes = await axios.post(
+          'https://2-12.co.uk/~ddar/FrogStore/api/get_related_products.php',
+          { 
+            "product_id": current.id, 
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+
+        const relatedData = relatedRes.data;
+        if (relatedData.success) {
+
+          const relatedProducts = allProducts.filter(p =>
+            relatedData.related_products.includes(Number(p.id))
+          );
+
+          setRelatedProducts(relatedProducts);
+        }
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
       }
     };
   
     fetchProducts();
   }, [id]);
+  
   
   const handleClick = (productId) => {
     navigate(`/product/${productId}`);
