@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './RegisterPage.css';
+import axios from 'axios';
 
 const RegisterPage = () => {
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  var [firstname, setFirstname] = useState('');
+  var [lastname, setLastName] = useState('');
+  var [username, setUsername] = useState('');
+  var [email, setEmail] = useState('');
+  var [password, setPassword] = useState('');
+  var [confirmPassword, setConfirmPassword] = useState('');
+  var [error, setError] = useState('');
 
-  const usernameExists = (username) => {
-    return false; 
-  };
+  const navigate = useNavigate();
 
   const isPasswordValid = (password) => {
     const minLength = password.length >= 5;
@@ -21,45 +20,65 @@ const RegisterPage = () => {
     return minLength && hasNumber;
   };
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const trimmedUsername = username.trim();
-    const trimmedPassword = password.trim();
+    username = username.trim();
+    password = password.trim();
   
     if (!firstname || !lastname || !username || !password || !confirmPassword) {
       setError('Please fill all fields');
       return;
     }
   
-    if (trimmedUsername.includes(' ') || trimmedPassword.includes(' ')) {
+    if (username.includes(' ') || password.includes(' ')) {
       setError('Username and password must not contain spaces.');
       return;
     }
   
-    if (trimmedUsername.length < 5) {
+    if (username.length < 5) {
       setError('Username must be at least 5 characters.');
       return;
     }
-
-    if (usernameExists(trimmedUsername)) {
-      setError('Username is already taken.');
-      return;
-    }
   
-    if (!isPasswordValid(trimmedPassword)) {
+    if (!isPasswordValid(password)) {
       setError('Password must be at least 5 characters and contain at least 1 number.');
       return;
     }
   
-    if (trimmedPassword !== confirmPassword) {
+    if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
-  
-    console.log('Account created!');
-    setError(null); // clear any previous errors
+
+    try {
+      const res = await axios.post(
+        'https://2-12.co.uk/~ddar/FrogStore/api/insert_user.php',
+        { 
+          "firstname" : firstname, 
+          "lastname" : lastname, 
+          "username" : username, 
+          "email" : email, 
+          "password" : password
+        },
+        { 
+          headers: { 'Content-Type': 'application/json' } 
+        }
+      );
+      
+      const data = res.data;
+      console.log(data);
+
+      if (data.success) {
+        setError(null);
+        navigate('/contact');
+        console.log('Account created!');
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      setError('Server error. Please try again later.');
+    }
   };
   
 
@@ -95,6 +114,16 @@ const RegisterPage = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter username"
+          />
+          <br />
+
+          <input
+            id="formField"
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email address"
           />
           <br />
 
