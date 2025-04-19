@@ -19,8 +19,12 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
 
   const fetchAPI = async () => {
-    const response = await axios.get("https://2-12.co.uk/~ddar/getProducts.php");
-    setProducts(response.data);
+    try {
+      const response = await axios.get("https://2-12.co.uk/~ddar/FrogStore/api/get_products.php");
+      setProducts(response.data.products);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
   };
 
   useEffect(() => {
