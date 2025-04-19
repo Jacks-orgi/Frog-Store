@@ -1,25 +1,41 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './LoginPage.css';
+import axios from 'axios';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [usernameOrEmail, setusernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
+    if (!usernameOrEmail || !password) {
       setError('Please fill all fields');
-    } else if (username.includes(' ') || password.includes(' ')) {
-      setError('Username and password must not contain spaces. Please try again');
     } else {
-      if (username !== 'validUser' || password !== 'validPassword') {
-        setError('Password incorrect. Please try again');
-      } else {
-        setError('');
-        navigate('/dashboard');
+      try {
+        const res = await axios.post(
+          'https://2-12.co.uk/~ddar/FrogStore/api/validate_user_credentials.php',
+          { 
+            "username_or_email" : usernameOrEmail, 
+            "password" : password
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        
+        const data = res.data;
+        console.log(data);
+
+        if (data.success) {
+          setError('');
+          navigate('/contact');
+        } else {
+          setError(data.message || 'Login failed');
+        }
+      } catch (err) {
+        console.log(err);
+        setError('Server error. Please try again later.');
       }
     }
   };
@@ -33,9 +49,9 @@ const LoginPage = () => {
             id="formField"
             type="text"
             name="uname"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter username"
+            value={usernameOrEmail}
+            onChange={(e) => setusernameOrEmail(e.target.value)}
+            placeholder="Enter username or email"
           />
           <br />
           <input
