@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropdown } from '../../context/DropdownContext';
 import { useBasket  } from '../../context/BasketContext';
@@ -9,6 +9,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { openDropdown, setOpenDropdown } = useDropdown();
   const { basketItems  } = useBasket();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const authToken = sessionStorage.getItem('authToken');
+    setIsLoggedIn(!!authToken);
+  }, [sessionStorage.getItem('authToken')]);
 
   const totalQuantity = useMemo(() => {
     return basketItems.reduce((total, item) => total + item.quantity, 0);
@@ -42,8 +48,14 @@ const Navbar = () => {
           </div>
         </div>
         <button className="nav-button" onClick={() => navigate('/contact')}>Contact</button>
-        <button className="nav-button" onClick={() => navigate('/login')}>Login</button>
-      </div>
+
+        {isLoggedIn ? (
+          <button className="nav-button" onClick={() => navigate('/account')}>Account</button>
+        ) : (
+          <button className="nav-button" onClick={() => navigate('/login')}>Login</button>
+        )}      
+        
+        </div>
 
       <div className="search-container">
         <input type="text" className="search-input" placeholder="Search..." />

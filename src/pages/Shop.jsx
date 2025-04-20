@@ -31,11 +31,9 @@ const Shop = () => {
     fetchAPI();
   }, []);
 
-
   useEffect(() => {
     setSelectedCategories([urlFilter]);
   }, [urlFilter]);
-
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategories(prev => {

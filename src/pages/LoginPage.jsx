@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './LoginPage.css';
 import axios from 'axios';
+import { useUser } from '../context/UserContext';
 
 const LoginPage = () => {
-  const [usernameOrEmail, setusernameOrEmail] = useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const { login } = useUser();
+
+  useEffect(() => {
+    const authToken = sessionStorage.getItem('authToken');
+    if (authToken) {
+      setIsLoggedIn(true);
+      navigate('/account');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,9 +27,9 @@ const LoginPage = () => {
     } else {
       try {
         const res = await axios.post(
-          'https://2-12.co.uk/~ddar/FrogStore/api/validate_user_credentials.php',
+          'https://2-12.co.uk/~ddar/FrogStore/api/login.php',
           { 
-            "username_or_email" : usernameOrEmail, 
+            "usernameOrEmail" : usernameOrEmail, 
             "password" : password
           },
           { headers: { 'Content-Type': 'application/json' } }
@@ -29,7 +40,9 @@ const LoginPage = () => {
 
         if (data.success) {
           setError('');
-          navigate('/contact');
+          login(data.key);
+          setIsLoggedIn(true);
+          navigate('/');
         } else {
           setError(data.message || 'Login failed');
         }
@@ -39,6 +52,15 @@ const LoginPage = () => {
       }
     }
   };
+
+  if (isLoggedIn) {
+    return (
+      <div className="container">
+        <h1>You're already logged in</h1>
+        <p>Redirecting to home page...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -50,7 +72,7 @@ const LoginPage = () => {
             type="text"
             name="uname"
             value={usernameOrEmail}
-            onChange={(e) => setusernameOrEmail(e.target.value)}
+            onChange={(e) => setUsernameOrEmail(e.target.value)}
             placeholder="Enter username or email"
           />
           <br />

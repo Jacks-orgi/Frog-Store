@@ -19,12 +19,9 @@ const ProductPage = () => {
         const data = res.data;
   
         const allProducts = data.products;
-        const current = allProducts.find(p => p.id === id);
+        const current = allProducts.find(p => String(p.id) === String(id));
         setProduct(current);
-        console.log(current);
   
-        console.log("Getting Related PRODUCTS");
-
         const relatedRes = await axios.post(
           'https://2-12.co.uk/~ddar/FrogStore/api/get_related_products.php',
           { 
@@ -65,14 +62,8 @@ const ProductPage = () => {
         quantity: quantity,
       };
 
-      console.log(productToAdd);
       addItemToBasket(productToAdd);
     }
-  };
-
-  
-  const handleQuantityChange = (event) => {
-    setQuantity(Number(event.target.value));
   };
 
   if (!product) return <div className="product-page"><p>Loading...</p></div>;

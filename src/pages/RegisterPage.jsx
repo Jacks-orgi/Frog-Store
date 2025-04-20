@@ -71,7 +71,7 @@ const RegisterPage = () => {
 
       if (data.success) {
         setError(null);
-        navigate('/contact');
+        navigate('/home');
         console.log('Account created!');
       } else {
         setError(data.message);
