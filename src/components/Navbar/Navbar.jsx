@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropdown } from '../../context/DropdownContext';
+import { useBasket  } from '../../context/BasketContext';
 import './Navbar.css';
+import { FaShoppingBasket } from "react-icons/fa";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { openDropdown, setOpenDropdown } = useDropdown();
+  const { basketItems  } = useBasket();
+
+  const totalQuantity = useMemo(() => {
+    return basketItems.reduce((total, item) => total + item.quantity, 0);
+  }, [basketItems]);
 
   const handleFilter = (filter) => {
     navigate(`/shop?filter=${filter}`);
   };
 
+  const BasketIcon = ({ itemCount }) => {
+    return (
+      <div className="basket-wrapper" onClick={() => navigate('/basket')}>
+        <FaShoppingBasket size={28} />
+        {itemCount > 0 && <span className="basket-count">{itemCount}</span>}
+      </div>
+    );
+  };
+
   return (
     <nav className="navbar">
       <div className="logo" onClick={() => navigate('/')}></div>
+
       <div className="nav-items">
         <button className="nav-button" onClick={() => navigate('/')}>Home</button>
         <div className="nav-item-with-dropdown">
@@ -27,8 +44,13 @@ const Navbar = () => {
         <button className="nav-button" onClick={() => navigate('/contact')}>Contact</button>
         <button className="nav-button" onClick={() => navigate('/login')}>Login</button>
       </div>
+
       <div className="search-container">
         <input type="text" className="search-input" placeholder="Search..." />
+      </div>
+
+      <div className="nav-items">
+        <BasketIcon itemCount={totalQuantity} />
       </div>
     </nav>
   );

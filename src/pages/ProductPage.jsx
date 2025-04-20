@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './ProductPage.css';
 import axios from 'axios';
+import { useBasket } from '../context/BasketContext';
 
 const ProductPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const { addItemToBasket } = useBasket();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -52,6 +55,26 @@ const ProductPage = () => {
     navigate(`/product/${productId}`);
   };
 
+  const handleAddToBasket = () => {
+    if (product) {
+      const productToAdd = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image_url: product.image_url,
+        quantity: quantity,
+      };
+
+      console.log(productToAdd);
+      addItemToBasket(productToAdd);
+    }
+  };
+
+  
+  const handleQuantityChange = (event) => {
+    setQuantity(Number(event.target.value));
+  };
+
   if (!product) return <div className="product-page"><p>Loading...</p></div>;
 
   return (
@@ -66,11 +89,16 @@ const ProductPage = () => {
           <p className="product-price">£{product.price}</p>
           <div className="product-actions">
             <label>
-              Quantity:
-              <input type="number" min="1" defaultValue="1" />
+                Quantity:
+                <input
+                  type="number"
+                  min="1"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  />
             </label>
             <button className="buy-now">Buy Now</button>
-            <button className="add-to-basket">Add to Basket</button>
+            <button className="add-to-basket" onClick={handleAddToBasket}>Add to Basket</button>
           </div>
           <p className="product-description">{product.description || 'No description available.'}</p>
         </div>
@@ -93,6 +121,7 @@ const ProductPage = () => {
           ))}
         </div>
       </div>
+
     </div>
   );
 };
