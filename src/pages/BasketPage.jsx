@@ -3,12 +3,14 @@ import './BasketPage.css';
 import axios from 'axios';
 import LoginPage from './LoginPage';
 import { useBasket } from '../context/BasketContext';
+import { useNavigate } from 'react-router-dom';
 
 const BasketPage = () => {
   const [cart, setCart] = useState([]);
   const [error, setError] = useState('');
   const [authToken, setAuthToken] = useState(sessionStorage.getItem('authToken') || '');
   const { addItemToBasket, removeItemFromBasket } = useBasket();
+  const navigate = useNavigate();
 
   const getCartInfo = async () => {
     setAuthToken(sessionStorage.getItem('authToken'));
@@ -111,6 +113,7 @@ const BasketPage = () => {
             <h3>Total: ${calculateTotal()}</h3>
           </div>
         )}
+        <button onClick={() => navigate("/checkout")}>Checkout</button>
       </div>
     </div>
   );
