@@ -1,0 +1,96 @@
+.basket-page {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .page-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  
+  .login-section {
+    width: 300px; /* Width of the login section */
+    flex-shrink: 0; /* Prevent the login section from shrinking */
+  }
+  
+  .cart-content {
+    flex-grow: 1; /* The cart section will take the remaining space */
+    padding: 10px;
+  }
+  
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .cart-card {
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 15px;
+    width: 500px; /* Fixed width for the cart item */
+    height: 150px; /* Fixed height for the cart item */
+  }
+  
+  .cart-item-image {
+    width: 100px;
+    height: 100px; /* Adjust image size */
+    object-fit: cover;
+    border-radius: 5px; /* Rounded corners for the image */
+  }
+  
+  .cart-item-details {
+    flex-grow: 1; /* Make the details section flexible */
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .cart-item-details h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .cart-item-details p {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .quantity-controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+  
+  .quantity-controls button,
+  .remove-btn {
+    padding: 5px 10px;
+    background-color: #007BFF; /* Default blue for buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .quantity-controls button:hover,
+  .remove-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .remove-btn {
+    background-color: #FF4C4C; /* Red for remove button */
+  }
+  
+  .remove-btn:hover {
+    background-color: #d43f3f; /* Darker red on hover */
+  }
+  

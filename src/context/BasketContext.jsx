@@ -8,15 +8,10 @@ export const useBasket = () => useContext(BasketContext);
 
 export const BasketProvider = ({ children }) => {
   const [basketItems, setBasketItems] = useState([]);
-  const { authToken } = useUser(); // Get token reactively from UserContext
+  const { authToken, setAuthToken } = useUser();
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      if (!authToken) {
-        setBasketItems([]); // Clear cart when user logs out
-        return;
-      }
-
+  const fetchCartItems = async () => {
+    if (authToken) {
       try {
         const res = await axios.post(
           'https://2-12.co.uk/~ddar/FrogStore/api/get_cart.php',
@@ -32,41 +27,109 @@ export const BasketProvider = ({ children }) => {
       } catch (error) {
         console.error("Error fetching cart items:", error);
       }
-    };
+    } else {
+      const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+      setBasketItems(storedCart);
+    }
+  };
 
+  const syncLocalStorage = () => {
+    localStorage.setItem('cart', JSON.stringify(basketItems));
+  };
+
+  useEffect(() => {
     fetchCartItems();
+  }, [authToken]);
+
+  useEffect(() => {
+    syncLocalStorage();
+  }, [basketItems]);
+
+  useEffect(() => {
+    if (!authToken) {
+      setBasketItems([]);
+      localStorage.removeItem('cart');
+    }
   }, [authToken]);
 
   const getTotalQuantity = () => {
     return basketItems.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const addItemToBasket = async (product) => {
-    if (!authToken) return;
+  const addItemToBasket = async (product, quantity) => {
+    if (authToken) {
+      try {
+        const response = await axios.post(
+          'https://2-12.co.uk/~ddar/FrogStore/api/insert_cart.php',
+          { 
+            token: authToken, 
+            product_id: product.product_id, 
+            quantity: quantity, 
+            remove: false 
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
 
-    setBasketItems(prevItems => {
-      const index = prevItems.findIndex(item => item.id === product.id);
-      if (index !== -1) {
-        const updatedItems = [...prevItems];
-        updatedItems[index].quantity += product.quantity;
-        return updatedItems;
+        if (response.data.success) {
+          fetchCartItems();
+        } else {
+          console.error("Failed to add item to cart:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error adding item to basket:", error);
       }
-      return [...prevItems, { ...product }];
-    });
+    } else {
+      const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+      const itemIndex = localCart.findIndex(item => item.product_id === product.product_id);
 
-    try {
-      await axios.post(
-        'https://2-12.co.uk/~ddar/FrogStore/api/insert_cart.php',
-        { token: authToken, product_id: product.id, quantity: product.quantity },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-    } catch (error) {
-      console.error("Error adding item to basket:", error);
+      if (itemIndex !== -1) {
+        localCart[itemIndex].quantity += quantity;
+      } else {
+        localCart.push({ ...product, quantity });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(localCart));
+      setBasketItems(localCart);
     }
   };
 
-  const removeItemFromBasket = (productId) => {
-    setBasketItems(prevItems => prevItems.filter(item => item.id !== productId));
+  const removeItemFromBasket = async (product, quantity) => {
+    if (authToken) {
+      try {
+        const response = await axios.post(
+          'https://2-12.co.uk/~ddar/FrogStore/api/insert_cart.php',
+          { 
+            token: authToken, 
+            product_id: product.product_id, 
+            quantity: quantity, 
+            remove: true 
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+
+        if (response.data.success) {
+          fetchCartItems();
+        } else {
+          console.error("Failed to remove item from cart:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error removing item from basket:", error);
+      }
+    } else {
+      const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+      const itemIndex = localCart.findIndex(item => item.product_id === product.product_id);
+
+      if (itemIndex !== -1) {
+        if (localCart[itemIndex].quantity > quantity) {
+          localCart[itemIndex].quantity -= quantity;
+        } else {
+          localCart.splice(itemIndex, 1);
+        }
+
+        localStorage.setItem('cart', JSON.stringify(localCart));
+        setBasketItems(localCart);
+      }
+    }
   };
 
   return (

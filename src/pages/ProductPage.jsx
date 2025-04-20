@@ -55,14 +55,13 @@ const ProductPage = () => {
   const handleAddToBasket = () => {
     if (product) {
       const productToAdd = {
-        id: product.id,
+        product_id: product.id,
         name: product.name,
         price: product.price,
-        image_url: product.image_url,
-        quantity: quantity,
+        image_url: product.image_url
       };
 
-      addItemToBasket(productToAdd);
+      addItemToBasket(productToAdd, quantity);
     }
   };
 
