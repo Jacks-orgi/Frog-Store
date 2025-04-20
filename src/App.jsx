@@ -19,6 +19,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import BasketPage from './pages/BasketPage';
 import AccountPage from './pages/AccountPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/basket" element={<BasketPage />} />
                 <Route path="/account" element={<AccountPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
               </Routes>
               <Footer />
             </div>

@@ -64,6 +64,10 @@ const BasketPage = () => {
     getCartInfo();
   }, []);
 
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  };
+  
   return (
     <div className="basket-page">
 
@@ -100,6 +104,12 @@ const BasketPage = () => {
           </div>
         ) : (
           <p>Your cart is empty.</p>
+        )}
+
+        {cart.length > 0 && (
+          <div className="total-section">
+            <h3>Total: ${calculateTotal()}</h3>
+          </div>
         )}
       </div>
     </div>
