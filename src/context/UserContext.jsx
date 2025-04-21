@@ -8,11 +8,13 @@ export const UserProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(sessionStorage.getItem('authToken'));
 
   const login = (token) => {
+    sessionStorage.removeItem('cart');
     sessionStorage.setItem('authToken', token);
     setAuthToken(token);
   };
 
   const logout = () => {
+    sessionStorage.removeItem('cart');
     sessionStorage.removeItem('authToken');
     setAuthToken(null);
   };
