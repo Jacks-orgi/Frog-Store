@@ -22,15 +22,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('../assets/noeyeFrog.png') no-repeat center;
-  background-size: contain;
 }
 
-.product-main-image {
-  width: 100%;
+.product-image-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('../assets/noeyeFrog.png') no-repeat center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.product-image-container img {
+  width: 80%; /* Reduced from 100% */
   height: auto;
-  max-height: 550px; /* Larger max height */
+  max-height: 450px; /* Reduced from 550px */
   object-fit: contain;
+  position: relative;
+  z-index: 0;
+  padding: 20px; /* Added padding to keep image away from border edges */
 }
 
 .product-info {

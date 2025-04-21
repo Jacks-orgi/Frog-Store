@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import './BasketPage.css';
 import axios from 'axios';
-import LoginPage from './LoginPage';
+import React, { useEffect, useState } from 'react';
 import { useBasket } from '../context/BasketContext';
+import './BasketPage.css';
+import LoginPage from './LoginPage';
 
 const BasketPage = () => {
   const [cart, setCart] = useState([]);

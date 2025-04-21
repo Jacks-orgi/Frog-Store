@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import './LoginPage.css';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import './LoginPage.css';
 
 const LoginPage = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
@@ -63,36 +63,38 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="container">
-      <h1>Login</h1>
-      <div className="form">
-        <form onSubmit={handleSubmit}>
+    <div className="login-container">
+      <div className="login-card">
+        <h2>Sign in or create an account</h2>
+        <p className="login-subtitle">Enter your email to sign in or create an account</p>
+        
+        <form onSubmit={handleSubmit} className="login-form">
           <input
-            id="formField"
             type="text"
-            name="uname"
             value={usernameOrEmail}
             onChange={(e) => setUsernameOrEmail(e.target.value)}
-            placeholder="Enter username or email"
+            placeholder="Email..."
+            className="login-input"
           />
-          <br />
           <input
-            id="formField"
             type="password"
-            name="pword"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
+            placeholder="Password..."
+            className="login-input"
           />
-          <br />
-          <input id="formButton" type="submit" value="Login" />
+          
+          <button type="submit" className="login-button">Log In</button>
+          
+          <Link to="/register" className="create-account-link">
+            Don't have an account? Create one here
+          </Link>
         </form>
-        {error && <p>{error}</p>}
+        
+        {error && <p className="error-message">{error}</p>}
       </div>
-      <div>
-        <span>Don't have an account? Create one </span>
-        <Link to="/register" id="hereButton">here</Link>
-      </div>
+      
+      <button onClick={() => navigate(-1)} className="back-button">Back</button>
     </div>
   );
 };

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import './RegisterPage.css';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './RegisterPage.css';
 
 const RegisterPage = () => {
   var [firstname, setFirstname] = useState('');
@@ -55,15 +55,13 @@ const RegisterPage = () => {
       const res = await axios.post(
         'https://2-12.co.uk/~ddar/FrogStore/api/insert_user.php',
         { 
-          "firstname" : firstname, 
-          "lastname" : lastname, 
-          "username" : username, 
-          "email" : email, 
-          "password" : password
+          "firstname": firstname, 
+          "lastname": lastname, 
+          "username": username, 
+          "email": email, 
+          "password": password
         },
-        { 
-          headers: { 'Content-Type': 'application/json' } 
-        }
+        { headers: { 'Content-Type': 'application/json' } }
       );
       
       const data = res.data;
@@ -80,82 +78,78 @@ const RegisterPage = () => {
       setError('Server error. Please try again later.');
     }
   };
-  
 
   return (
-    <div className="container">
-      <h1>Register Page</h1>
-      <div className="form">
+    <div className="register-container">
+      <div className="register-card">
+        <h2>Create Account</h2>
+        
+        <form onSubmit={handleSubmit} className="register-form">
+          <div className="form-columns">
+            <div className="form-column">
+              <input
+                className="register-input"
+                type="text"
+                name="fname"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                placeholder="First Name*"
+              />
+              <input
+                className="register-input"
+                type="text"
+                name="sname"
+                value={lastname}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name*"
+              />
+              <input
+                className="register-input"
+                type="text"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username*"
+              />
+            </div>
+            
+            <div className="form-divider"></div>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            id="formField"
-            type="text"
-            name="fname"
-            value={firstname}
-            onChange={(e) => setFirstname(e.target.value)}
-            placeholder="Enter firstname"
-          />
+            <div className="form-column">
+              <input
+                className="register-input"
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email Address*"
+              />
+              <input
+                className="register-input"
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password*"
+              />
+              <input
+                className="register-input"
+                type="password"
+                name="confirmpword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm Password*"
+              />
+            </div>
+          </div>
 
-          <input
-            id="formField"
-            type="text"
-            name="sname"
-            value={lastname}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Enter lastname"
-          />
-          <br />
-
-          <input
-            id="formField"
-            type="username"
-            name="pword"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter username"
-          />
-          <br />
-
-          <input
-            id="formField"
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email address"
-          />
-          <br />
-
-          <input
-            id="formField"
-            type="password"
-            name="pword"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
-          />
-          <br />
-
-          <input
-            id="formField"
-            type="password"
-            name="confirmpword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm password"
-          />
-          <br />
-
-          <input id="formButton" type="submit" value="Register" />
+          <button type="submit" className="register-button">Create Account</button>
+          
+          {error && <p className="error-message">{error}</p>}
         </form>
-
-        {error && <p>{error}</p>}
       </div>
-      <div>
-        <span>Don't have an account? Create one </span>
-        <Link to="/login" id="hereButton">here</Link>
-        </div>
+      
+      <button onClick={() => navigate(-1)} className="back-button">Back</button>
     </div>
   );
 };
