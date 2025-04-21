@@ -72,7 +72,6 @@ const BasketPage = () => {
   
   return (
     <div className="basket-page">
-
       {!authToken ? (
         <div className="login-section">
           <LoginPage />
@@ -113,7 +112,7 @@ const BasketPage = () => {
             <h3>Total: ${calculateTotal()}</h3>
           </div>
         )}
-        <button onClick={() => navigate("/checkout")}>Checkout</button>
+        <button className="checkout-button" onClick={() => navigate("/checkout")}>Checkout</button>
       </div>
     </div>
   );
