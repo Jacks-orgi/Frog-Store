@@ -1,12 +1,13 @@
 .basket-page {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 40px;
   padding: 20px;
   width: 55%; /* Match navbar width */
   margin: 0 auto;
   align-items: flex-start;
   position: relative;
+  min-width: 1000px; /* Minimum width to prevent squishing */
 }
 
 .page-content {
@@ -16,16 +17,13 @@
 }
 
 .login-section {
-  position: absolute;
-  left: 0;
-  flex: 0 0 400px;
-  align-self: flex-start;
-  margin-top: 40px;
+  flex: 0 0 400px; /* Fixed width but now using flex instead of absolute */
   height: fit-content;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  margin-top: 40px;
 }
 
 .login-section .login-container {
@@ -149,4 +147,27 @@
 
 .checkout-button:hover {
   background-color: var(--secondary-green);
+}
+
+/* Media query for smaller screens */
+@media (max-width: 1200px) {
+  .basket-page {
+    width: 90%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-section {
+    position: static;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+
+  .cart-content {
+    width: 100%;
+    max-width: 600px;
+    margin: 0;
+  }
 }
