@@ -116,7 +116,7 @@ const BasketPage = () => {
                 <h3>Shipping: £{shippingPrice}</h3>
                 <h3>Order Total: £{(Number(calculateTotal()) + (shippingPrice)).toFixed(2)}</h3>
               </div>
-              <button className="checkout-button" onClick={() => navigate("/checkout")}>Checkout</button>
+              <button className="checkout-button" onClick={() => navigate("/checkout", { state: { items: cart } })}>Checkout</button>
             </div>
           )}
         </div>

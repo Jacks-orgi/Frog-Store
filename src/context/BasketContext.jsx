@@ -132,8 +132,31 @@ export const BasketProvider = ({ children }) => {
     }
   };
 
+  const clearBasket = async () => {
+    if (authToken) {
+      try {
+        const response = await axios.post(
+          'https://2-12.co.uk/~ddar/FrogStore/api/clear_cart.php',
+          { token: authToken },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+
+        if (response.data.success) {
+          setBasketItems([]);
+        } else {
+          console.error("Failed to clear cart:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error clearing basket:", error);
+      }
+    } else {
+      setBasketItems([]);
+      localStorage.removeItem('cart');
+    }
+  };
+
   return (
-    <BasketContext.Provider value={{ basketItems, addItemToBasket, removeItemFromBasket, getTotalQuantity }}>
+    <BasketContext.Provider value={{ basketItems, addItemToBasket, removeItemFromBasket, getTotalQuantity, clearBasket }}>
       {children}
     </BasketContext.Provider>
   );
