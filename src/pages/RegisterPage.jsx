@@ -28,7 +28,7 @@ const RegisterPage = () => {
   };
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^[\d\s\-+()]{7,20}$/;
+  const phoneRegex = /^$|^[\d\s\-+()]{7,20}$/;
   const postcodeRegex = /^([A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2})$/i;
 
   const handleSubmit = async (e) => {
