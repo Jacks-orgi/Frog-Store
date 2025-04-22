@@ -20,6 +20,7 @@ import RegisterPage from './pages/RegisterPage';
 import BasketPage from './pages/BasketPage';
 import AccountPage from './pages/AccountPage';
 import CheckoutPage from './pages/CheckoutPage';
+import OrderSubmittedPage from './pages/OrderSubmittedPage';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
                 <Route path="/basket" element={<BasketPage />} />
                 <Route path="/account" element={<AccountPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/ordersubmitted" element={<OrderSubmittedPage/>} />
               </Routes>
               <Footer />
             </div>
