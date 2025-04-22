@@ -73,12 +73,14 @@ const BasketPage = () => {
   
   return (
     <div className="basket-page">
-      {!authToken ? (
-        <div className="login-section">
-          <LoginPage />
+
+      <div className="form-columns">
+        <div className="form-column">
+
+          {!authToken ? (
+            <LoginPage />
+          ) : null}
         </div>
-      ) : null}
-          
       <div className="form-divider"></div>
 
       <div className="cart-content">
@@ -121,6 +123,7 @@ const BasketPage = () => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };
