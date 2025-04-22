@@ -1,0 +1,116 @@
+.checkout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 20px;
+    background-color: var(--main-off-white);
+  }
+  
+  .checkout-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .checkout-card h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    text-align: center;
+  }
+  
+  .checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-columns {
+    display: flex;
+    gap: 40px;
+  }
+  
+  .form-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-row {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+    }
+  
+  .form-divider {
+    width: 1px;
+    background-color: #87a97b;
+  }
+  
+  .checkout-input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    width: 100%;
+  }
+  
+  .checkout-button {
+    background-color: var(--main-green);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  .checkout-button:hover {
+    background-color: var(--secondary-green);
+  }
+  
+  .back-button {
+    margin-top: 20px;
+    padding: 8px 20px;
+    background-color: #ceb460;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #b59c4d;
+  }
+  
+  .error-message {
+    color: #ff4444;
+    margin-top: 10px;
+    font-size: 0.9em;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .form-columns {
+      flex-direction: column;
+    }
+    
+    .form-divider {
+      display: none;
+    }
+    
+    .checkout-card {
+      padding: 20px;
+    }
+  }
