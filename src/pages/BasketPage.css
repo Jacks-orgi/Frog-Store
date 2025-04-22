@@ -1,13 +1,15 @@
 .basket-page {
+  padding: 20px;
+  width: 55%;
+  margin: 0 auto;
+  min-width: 1000px;
+}
+
+.basket-content {
   display: flex;
   justify-content: space-between;
   gap: 40px;
-  padding: 20px;
-  width: 55%; /* Match navbar width */
-  margin: 0 auto;
   align-items: flex-start;
-  position: relative;
-  min-width: 1000px; /* Minimum width to prevent squishing */
 }
 
 .page-content {
@@ -17,13 +19,11 @@
 }
 
 .login-section {
-  flex: 0 0 400px; /* Fixed width but now using flex instead of absolute */
-  height: fit-content;
+  flex: 0 0 400px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin-top: 40px;
 }
 
 .login-section .login-container {
@@ -37,15 +37,11 @@
 }
 
 .cart-content {
-  flex: 0 0 600px; /* Reduced from 800px */
-  min-width: 0;
-  max-width: 600px; /* Reduced from 800px */
-  margin-left: auto; /* Push cart to right side */
-  margin-top: 40px;
-  padding: 20px;
+  flex: 0 0 600px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
 .cart-items {
@@ -125,7 +121,7 @@
   background-color: #d43f3f; 
 }
 
-/* Center content when login is not present */
+/* When no login is present */
 .basket-page:not(:has(.login-section)) .cart-content {
   margin: 0 auto;
 }
@@ -155,20 +151,16 @@
   .basket-page {
     width: 90%;
     min-width: 0;
+  }
+  
+  .basket-content {
     flex-direction: column;
-    align-items: center;
   }
 
-  .login-section {
-    position: static;
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
-  }
-
+  .login-section,
   .cart-content {
     width: 100%;
     max-width: 600px;
-    margin: 0;
+    margin: 0 auto;
   }
 }
