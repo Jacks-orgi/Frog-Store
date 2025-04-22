@@ -11,6 +11,7 @@ const BasketPage = () => {
   const [authToken, setAuthToken] = useState(sessionStorage.getItem('authToken') || '');
   const { addItemToBasket, removeItemFromBasket } = useBasket();
   const navigate = useNavigate();
+  const shippingPrice = 2.99;
 
   const getCartInfo = async () => {
     setAuthToken(sessionStorage.getItem('authToken'));
@@ -77,7 +78,9 @@ const BasketPage = () => {
           <LoginPage />
         </div>
       ) : null}
-      
+          
+      <div className="form-divider"></div>
+
       <div className="cart-content">
         <h1>Your Cart</h1>
 
@@ -90,7 +93,7 @@ const BasketPage = () => {
                 <img src={item.image_url} alt={item.name} className="cart-item-image" />
                 <div className="cart-item-details">
                   <h2>{item.name}</h2>
-                  <p>Price: ${item.price}</p>
+                  <p>Price: £{item.price}</p>
 
                   <div className="quantity-controls">
                     <button onClick={() => handleQuantityChange(index, -1)}>-</button>
@@ -108,11 +111,15 @@ const BasketPage = () => {
         )}
 
         {cart.length > 0 && (
-          <div className="total-section">
-            <h3>Total: ${calculateTotal()}</h3>
+          <div>
+            <div className="total-section">
+              <h3>Items: £{calculateTotal()}</h3>
+              <h3>Shipping: £{shippingPrice}</h3>
+              <h3>Order Total: £{(Number(calculateTotal()) + (shippingPrice)).toFixed(2)}</h3>
+            </div>
+            <button className="checkout-button" onClick={() => navigate("/checkout")}>Checkout</button>
           </div>
         )}
-        <button className="checkout-button" onClick={() => navigate("/checkout")}>Checkout</button>
       </div>
     </div>
   );

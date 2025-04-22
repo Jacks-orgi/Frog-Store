@@ -36,7 +36,6 @@ const LoginPage = () => {
         );
         
         const data = res.data;
-        console.log(data);
 
         if (data.success) {
           setError('');
@@ -73,14 +72,14 @@ const LoginPage = () => {
             type="text"
             value={usernameOrEmail}
             onChange={(e) => setUsernameOrEmail(e.target.value)}
-            placeholder="Email..."
+            placeholder="Email or Username"
             className="login-input"
           />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password..."
+            placeholder="Password"
             className="login-input"
           />
           

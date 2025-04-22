@@ -36,16 +36,17 @@ const RegisterPage = () => {
 
     const trimmed = [
       firstname, lastname, username, email, phone, password, confirmPassword,
-      country, address_line1, city, state, postcode
+      country, address_line1, address_line2, city, state, postcode
     ].map((f) => f.trim());
 
     const [
       tFirstname, tLastname, tUsername, tEmail, tPhone, tPassword, tConfirmPassword,
-      tCountry, tAddress1, tCity, tState, tPostcode
+      tCountry, tAddress1, tAddress2, tCity, tState, tPostcode
     ] = trimmed;
 
     if (!tFirstname || !tLastname || !tUsername || !tEmail || !tPassword || !tConfirmPassword ||
         !tCountry || !tAddress1 || !tCity || !tState || !tPostcode) {
+      console.log("err");
       setError('Please fill all required fields');
       return;
     }
@@ -96,7 +97,7 @@ const RegisterPage = () => {
           phone: tPhone,
           password: tPassword,
           address_line1: tAddress1,
-          address_line2: address_line2.trim(),
+          address_line2: tAddress2,
           city: tCity,
           postcode: tPostcode,
           country: tCountry,

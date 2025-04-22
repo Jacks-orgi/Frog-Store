@@ -104,16 +104,17 @@
 .quantity-controls button,
 .remove-btn {
   padding: 5px 10px;
-  background-color: #007BFF; 
+  background-color: var(--main-green); 
   color: white;
   border: none;
   border-radius: 5px;
+  margin: 5px;
   cursor: pointer;
 }
 
 .quantity-controls button:hover,
 .remove-btn:hover {
-  background-color: #0056b3; 
+  background-color: var(--secondary-green); 
 }
 
 .remove-btn {
