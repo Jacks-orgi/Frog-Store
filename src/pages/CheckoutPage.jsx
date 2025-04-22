@@ -146,16 +146,26 @@ const CheckoutPage = () => {
               <input className="checkout-input" type="text" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Phone Number" />
               <input className="checkout-input" type="password" name="cardnumber" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} placeholder="Card Number*" />
 
+              <div className="form-group">
+                  <label htmlFor="cardnumber">Card Number</label>
+                  <input className="checkout-input" type="password" name="cardnumber" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} placeholder="Card Number*" />
+              </div>
+
               <div className="form-row">
-              <h2>Checkout Page</h2>
-                <input className="checkout-input" type="text" name="expirationdate" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} placeholder="MM / YY*" />
-                <input className="checkout-input" type="text" name="cardcsc" value={cardCSC} onChange={(e) => setCardCSC(e.target.value)} placeholder="CSC*" />
-              
+                <div className="form-group">
+                  <label htmlFor="expirationdate">Expiration Date</label>
+                  <input className="checkout-input" type="text" name="expirationdate" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} placeholder="MM / YY*" />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="cardcsc">Card Security Code</label>
+                  <input className="checkout-input" type="text" name="cardcsc" value={cardCSC} onChange={(e) => setCardCSC(e.target.value)} placeholder="CSC*" />
+                </div>
               </div>
             </div>
           </div>
 
-          <button type="submit" className="checkout-button">Create Account</button>
+          <button type="submit" className="checkout-button">Checkout</button>
 
           {error && <p className="error-message">{error}</p>}
         </form>
