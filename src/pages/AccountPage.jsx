@@ -22,8 +22,6 @@ const AccountPage = () => {
 
     const fetchUserDetails = async () => {
       try {
-        console.log(authToken);
-
         const res = await axios.post(
           'https://2-12.co.uk/~ddar/FrogStore/api/get_user_details.php',
           { token: authToken },
@@ -31,14 +29,12 @@ const AccountPage = () => {
         );
         const data = res.data;
 
-        console.log(data);
         if (data.success) {
           setUserDetails(data.user_details);
         } else {
           setError(data.message || 'Failed to fetch user details');
         }
       } catch (err) {
-        console.log(err);
         setError('Server error. Please try again later.');
       } finally {
         setLoading(false);

@@ -8,6 +8,7 @@ const CheckoutPage = () => {
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+
   const [cardNumber, setCardNumber] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [cardCSC, setCardCSC] = useState('');
@@ -17,15 +18,15 @@ const CheckoutPage = () => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [postcode, setPostCode] = useState('');
+
   const [error, setError] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigate = useNavigate();
   const location = useLocation();
 
+  const authToken = sessionStorage.getItem('authToken');
   const cart = location.state?.items || [];
+  const total = location.state?.total || 0;
 
   useEffect(() => {
     if (!cart || cart.length === 0) {
@@ -37,42 +38,26 @@ const CheckoutPage = () => {
     return <p>No items in cart.</p>;
   }
 
-  const isPasswordValid = (password) => {
-    const minLength = password.length >= 5;
-    const hasNumber = /\d/.test(password);
-    return minLength && hasNumber;
-  };
-
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[\d\s\-+()]{7,20}$/;
   const postcodeRegex = /^([A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2})$/i;
+  const cardNumberRegex = /^[0-9]{16}$/;
+  const expirationDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; // MM/YY format
+  const cardCSCRegex = /^[0-9]{3,4}$/; // 3 or 4 digit CSC
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const trimmed = [
-      firstname, lastname, email, phone, password, confirmPassword,
-      country, address_line1, city, state, postcode, username
+      firstname, lastname, email, phone, country, address_line1, address_line2, city, state, postcode
     ].map((f) => f.trim());
 
     const [
-      tFirstname, tLastname, tEmail, tPhone, tPassword, tConfirmPassword,
-      tCountry, tAddress1, tCity, tState, tPostcode, tUsername
+      tFirstname, tLastname, tEmail, tPhone, tCountry, tAddress1, tAddress2, tCity, tState, tPostcode
     ] = trimmed;
 
-    if (!tFirstname || !tLastname || !tUsername || !tEmail || !tPassword || !tConfirmPassword ||
-        !tCountry || !tAddress1 || !tCity || !tState || !tPostcode) {
+    if (!tFirstname || !tLastname || !tEmail || !tCountry || !tAddress1 || !tCity || !tState || !tPostcode) {
       setError('Please fill all required fields');
-      return;
-    }
-
-    if (tUsername.includes(' ') || tPassword.includes(' ')) {
-      setError('Username and password must not contain spaces.');
-      return;
-    }
-
-    if (tUsername.length < 5) {
-      setError('Username must be at least 5 characters.');
       return;
     }
 
@@ -91,32 +76,42 @@ const CheckoutPage = () => {
       return;
     }
 
-    if (!isPasswordValid(tPassword)) {
-      setError('Password must be at least 5 characters and contain at least 1 number.');
-      return;
+      
+    if (!cardNumberRegex.test(cardNumber)) {
+      setError('Invalid card number');
+      return false;
     }
-
-    if (tPassword !== tConfirmPassword) {
-      setError('Passwords do not match.');
-      return;
+  
+    if (!expirationDateRegex.test(expirationDate)) {
+      setError('Invalid expiration date format (MM/YY)');
+      return false;
+    }
+  
+    if (!cardCSCRegex.test(cardCSC)) {
+      setError('Invalid card CSC');
+      return false;
     }
 
     try {
       const res = await axios.post(
-        'https://2-12.co.uk/~ddar/FrogStore/api/create_user.php',
+        'https://2-12.co.uk/~ddar/FrogStore/api/create_order.php',
         {
           firstname: tFirstname,
           lastname: tLastname,
-          username: tUsername,
           email: tEmail,
-          phone: tPhone,
-          password: tPassword,
+          phone: tPhone,            //optional
           address_line1: tAddress1,
-          address_line2: address_line2.trim(),
+          address_line2: tAddress2, //optional
           city: tCity,
           postcode: tPostcode,
           country: tCountry,
-          state: tState
+          state: tState,
+          cardNumber,
+          expirationDate,
+          cardCSC,
+          cart: cart,
+          total: total,
+          token: authToken          //optional       
         },
         { headers: { 'Content-Type': 'application/json' } }
       );
@@ -125,7 +120,7 @@ const CheckoutPage = () => {
 
       if (data.success) {
         setError(null);
-        navigate('/ordersubmitted', { state: { items: cart } });
+        navigate("/ordersubmitted", { state: { items: cart, total: total} });
       } else {
         setError(data.message);
       }
@@ -157,11 +152,8 @@ const CheckoutPage = () => {
                 <input className="checkout-input" type="text" name="firstname" value={firstname} onChange={(e) => setFirstname(e.target.value)} placeholder="Firstname*" />
                 <input className="checkout-input" type="text" name="lastname" value={lastname} onChange={(e) => setLastName(e.target.value)} placeholder="Lastname*" />
               </div>
-              <input className="checkout-input" type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username*" />
               <input className="checkout-input" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email Address*" />
               <input className="checkout-input" type="text" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Phone Number*" />
-              <input className="checkout-input" type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password*" />
-              <input className="checkout-input" type="password" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password*" />
               <div className="form-group">
                 <label htmlFor="cardnumber">Card Number</label>
                 <input className="checkout-input" type="password" name="cardnumber" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} placeholder="Card Number*" />
