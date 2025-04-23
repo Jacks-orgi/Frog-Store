@@ -40,9 +40,11 @@ const Contact = () => {
     <div className="contact-page">
       <form onSubmit={handleSubmit} className="contact-form">
         <h1>Contact Us</h1>
+
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
+            id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -54,10 +56,11 @@ const Contact = () => {
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Your Email"
+            placeholder="Your email"
             required
           />
         </div>
@@ -66,7 +69,6 @@ const Contact = () => {
           <label htmlFor="message">Message</label>
           <textarea
             id="message"
-            name="message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Your message"
@@ -77,14 +79,12 @@ const Contact = () => {
 
         <button type="submit" className="submit-button">Submit</button>
 
-      {feedback && (
-        <p className={isSuccess ? 'success-message' : 'error-message'}>
-          {feedback}
-        </p>
-      )}
-
+        {feedback && (
+          <p className={isSuccess ? 'success-message' : 'error-message'}>
+            {feedback}
+          </p>
+        )}
       </form>
-
     </div>
   );
 };

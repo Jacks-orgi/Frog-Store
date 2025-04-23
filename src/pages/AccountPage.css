@@ -1,0 +1,56 @@
+.account-container {
+    padding: 2rem;
+    min-width: 400px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card h2 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .card p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+  
+  .logout-btn {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c9302c;
+  }
+  
+  .error-message {
+    color: #d9534f;
+    background: #f8d7da;
+    padding: 1rem;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
