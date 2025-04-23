@@ -1,0 +1,190 @@
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS related_products;
+DROP TABLE IF EXISTS user_card_info;
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS order_details;
+DROP TABLE IF EXISTS user_addresses;
+DROP TABLE IF EXISTS addresses;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS products;
+
+CREATE TABLE products (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  status ENUM('In Stock', 'Sold Out') DEFAULT 'In Stock',
+  category ENUM('plushies', 'stress-helpers') DEFAULT 'plushies',
+  image_url TEXT,
+  description VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  firstname VARCHAR(50) NOT NULL,
+  lastname VARCHAR(50) NOT NULL,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(50) NOT NULL UNIQUE,
+  phone VARCHAR(20),
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE addresses (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  address_line1 VARCHAR(255) NOT NULL,
+  address_line2 VARCHAR(255),
+  city VARCHAR(100) NOT NULL,
+  state VARCHAR(100) NOT NULL,
+  postcode VARCHAR(20) NOT NULL,
+  country VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE user_addresses (
+  user_id INT NOT NULL,
+  address_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (address_id) REFERENCES addresses(id)
+);
+
+CREATE TABLE order_details (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT DEFAULT NULL,
+  address_id INT,
+  total DECIMAL(10, 2) NOT NULL,
+  status ENUM('Pending Payment', 'In shipping', 'Cancelled', 'Completed') DEFAULT 'Pending Payment',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (address_id) REFERENCES addresses(id) ON DELETE SET NULL
+);
+
+CREATE TABLE order_items (
+  order_id INT NOT NULL,
+  product_id INT NOT NULL,
+  quantity INT NOT NULL DEFAULT 1,
+  PRIMARY KEY (order_id, product_id),
+  FOREIGN KEY (order_id) REFERENCES order_details(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE cart (
+  user_id INT NOT NULL,
+  product_id INT NOT NULL,
+  quantity INT NOT NULL,
+  PRIMARY KEY (user_id, product_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE user_card_info (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  card_number BIGINT NOT NULL,
+  expiration DATE NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE (user_id, card_number)
+);
+;
+
+CREATE TABLE related_products (
+  product_id INT NOT NULL,
+  related_product_id INT NOT NULL,
+  PRIMARY KEY (product_id, related_product_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+  FOREIGN KEY (related_product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+CREATE TABLE messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- USERS
+INSERT INTO users (firstname, lastname, username, email, phone, password) VALUES
+('Admin', 'Admin', 'Admin', 'admin@admin.com', '07123456789', '$2y$10$oBqElM2Cjn6f9wV6CXSRieJabhY1L17NKex6czDMU37T5fgPcUhYm'),
+('Bob', 'Johnson', 'bobbyJ', 'bob@example.com', '07123456789', '$2y$10$oBqElM2Cjn6f9wV6CXSRieJabhY1L17NKex6czDMU37T5fgPcUhYm');
+
+-- USER ADDRESSES
+INSERT INTO addresses (user_id, address_line1, address_line2, city, state, postcode, country) VALUES
+(1, '123 Admin Street', '', 'Adminville', 'Adminstate', 'ADM123', 'Adminland'),
+(2, '456 Bob Avenue', '', 'Bobtown', 'Bobstate', 'BOB456', 'Bobland');
+
+-- USER CARD INFO
+INSERT INTO user_card_info (user_id, card_number, expiration) VALUES
+(1, 4111111111111111, '2026-12-31'),
+(2, 5500000000000004, '2025-08-15');
+
+-- PRODUCTS
+INSERT INTO products (name, price, status, category, image_url, description) VALUES
+('Frog Plushie Classic', 19.99, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi1.png', 'A great product for everyday use.'),
+('Sleepy Frog Plush', 21.50, 'Sold Out', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi2.png', 'A great product for everyday use.'),
+('Mini Pond Buddy', 9.99, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi3.png', 'A great product for everyday use.'),
+('Frog Hoodie - Pink Blush', 38.00, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi4.png', 'A great product for everyday use.'),
+('Frog Hoodie - Sky Blue', 35.00, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi5.png', 'A great product for everyday use.'),
+('Frog Hoodie - Midnight', 36.50, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi6.png', 'A great product for everyday use.'),
+('Frog Hoodie - Sunny Day', 33.99, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi7.png', 'A great product for everyday use.'),
+('Frog Hoodie - Sunset', 37.00, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi8.png', 'A great product for everyday use.'),
+('Frog Hoodie - Aqua Dream', 31.00, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi9.png', 'A great product for everyday use.'),
+('Frog Hoodie - Snowy Frog', 36.99, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi10.png', 'A great product for everyday use.'),
+('Frog Hoodie - Forest Walk', 34.49, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi11.png', 'A great product for everyday use.'),
+('Frog Hoodie - Bubble Mint', 32.75, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi12.png', 'A great product for everyday use.'),
+('Frog Hoodie - Lilypad Love', 34.25, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi13.png', 'A great product for everyday use.'),
+('Frog Hoodie - Dreamy Dew', 35.80, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi14.png', 'A great product for everyday use.'),
+('Frog Hoodie - Chill Vibes', 33.30, 'In Stock', 'plushies', 'https://2-12.co.uk/~ddar/FrogStore/assets/plushi15.png', 'A great product for everyday use.'),
+('Ergonomic Frog Laptop Stand', 27.99, 'Sold Out', 'stress-helpers', 'https://2-12.co.uk/~ddar/FrogStore/assets/stress1.png', 'A great product for everyday use.'),
+('Glow Frog Desk Lamp', 22.49, 'In Stock', 'stress-helpers', 'https://2-12.co.uk/~ddar/FrogStore/assets/stress2.png', 'A great product for everyday use.'),
+('Bouncy Frog Sneakers', 54.99, 'In Stock', 'stress-helpers', 'https://2-12.co.uk/~ddar/FrogStore/assets/stress3.png', 'A great product for everyday use.'),
+('Glow Frog Desk Lamp - Teal', 20.50, 'In Stock', 'stress-helpers', 'https://2-12.co.uk/~ddar/FrogStore/assets/stress4.png', 'A great product for everyday use.'),
+('Glow Frog Desk Lamp - Lime', 21.99, 'In Stock', 'stress-helpers', 'https://2-12.co.uk/~ddar/FrogStore/assets/stress5.png', 'A great product for everyday use.'),
+('Glow Frog Desk Lamp - Coral', 23.00, 'In Stock', 'stress-helpers', 'https://2-12.co.uk/~ddar/FrogStore/assets/stress6.png', 'A great product for everyday use.'),
+('Glow Frog Desk Lamp - Blush', 19.75, 'In Stock', 'stress-helpers', 'https://2-12.co.uk/~ddar/FrogStore/assets/stress7.png', 'A great product for everyday use.'),
+('Glow Frog Desk Lamp - Ocean', 22.00, 'In Stock', 'stress-helpers', 'https://2-12.co.uk/~ddar/FrogStore/assets/stress8.png', 'A great product for everyday use.');
+
+-- RELATED PRODUCTS
+INSERT INTO related_products (product_id, related_product_id) VALUES
+(1, 2), (1, 3), 
+(2, 1), (2, 4),
+(3, 1), (3, 4), 
+(4, 2), (4, 3),
+(5, 1), (5, 4), 
+(6, 1), (6, 2), (6, 5), 
+(7, 2), (7, 3), (7, 8), 
+(8, 3), (8, 7), (8, 9), 
+(9, 4), (9, 8), (9, 10), 
+(10, 5), (10, 9), (10, 11), (10, 15),
+(11, 6), (11, 10), (11, 12), (11, 16),
+(12, 7), (12, 11), (12, 13), (12, 17),
+(13, 8), (13, 12), (13, 14), (13, 18),
+(14, 9), (14, 13), (14, 15), (14, 19),
+(15, 10), (15, 14), (15, 16), (15, 20),
+(16, 11), (16, 15), (16, 17), (16, 21),
+(17, 12), (17, 16), (17, 18), (17, 22),
+(18, 13), (18, 17), (18, 19), (18, 23),
+(19, 14), (19, 18), (19, 20), (19, 24),
+(20, 15), (20, 19), (20, 21), (20, 7),
+(21, 16), (21, 20), (21, 22), (21, 3),
+(22, 17), (22, 21), (22, 23), (22, 24),
+(23, 18), (23, 22), (23, 24), (23, 17),
+(24, 19), (24, 20), (24, 22), (24, 23);
+
+
+-- CART
+INSERT INTO cart (user_id, product_id, quantity) VALUES
+(1, 1, 5),
+(1, 2, 1),
+(1, 3, 3),
+(2, 1, 4);
+
+-- ORDER DETAILS
+INSERT INTO order_details (user_id, address_id, total, status) VALUES
+(1, 1, 63.48, 'Completed'),
+(2, 2, 49.99, 'Pending Payment');
+
+-- ORDER ITEMS
+INSERT INTO order_items (order_id, product_id, quantity) VALUES
+(1, 1, 2),
+(1, 3, 1),
+(2, 2, 1);

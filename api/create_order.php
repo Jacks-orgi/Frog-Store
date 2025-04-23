@@ -6,7 +6,7 @@ require_once 'db.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-header("Access-Control-Allow-Origin: *"); // Replace with specific domain later
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
@@ -36,24 +36,24 @@ $state = $data["state"] ?? '';
 $cardNumber = $data["cardNumber"] ?? '';
 $expirationDate = $data["expirationDate"] ?? '';
 $cardCSC = $data["cardCSC"] ?? '';
-$token = $data["token"] ?? '';
-$cart = $data["cart"] ?? [];   
-$total = $data["total"] ?? [];   
+$token = $data["token"] ?? null;
+$cart = $data["cart"] ?? [];
+$total = $data["total"] ?? [];
 
 if (
-    !$firstname || 
-    !$lastname || 
-    !$email || 
-    !$address_line1 || 
-    !$city || 
-    !$postcode || 
-    !$country || 
-    !$state || 
-    !$cardNumber || 
-    !$expirationDate || 
-	!$cardCSC || 
-    !$cart ||
-	!$total
+	empty($firstname) || 
+	empty($lastname) || 
+	empty($email) || 
+	empty($address_line1) || 
+	empty($city) || 
+	empty($postcode) || 
+	empty($country) || 
+	empty($state) || 
+	empty($cardNumber) || 
+	empty($expirationDate) || 
+	empty($cardCSC) || 
+	empty($cart) || 
+	empty($total)
 ) {
     echo json_encode([
         "success" => false,
@@ -62,114 +62,166 @@ if (
     exit();
 }
 
-if ($token) {
-    $secret_key = 'Gv93a!xKzq#8BmT2@Wn7Lp*eJ6rQz9UvYf4HtX0c$sNhMdVw';
-    $decoded = JWT::decode($token, new Key($secret_key, 'HS256'));
-    $userid = $decoded->userid; // User ID from decoded token
-}
-
+$user_id = null;
 $pdo->beginTransaction();
 try {
-	
-	$stmt = $pdo->prepare("
-		SELECT id FROM addresses
-		WHERE address_line1 = :address_line1
-		  AND address_line2 = :address_line2
-		  AND city = :city
-		  AND state = :state
-		  AND postcode = :postcode
-		  AND country = :country
-		LIMIT 1
-	");
+    if ($token) {
+        // Decode the token
+        $secret_key = 'Gv93a!xKzq#8BmT2@Wn7Lp*eJ6rQz9UvYf4HtX0c$sNhMdVw';
+        try {
+            $decoded = JWT::decode($token, new Key($secret_key, 'HS256'));
+			if (isset($decoded->userid)) {
+				$user_id = $decoded->userid;
+			}
+			
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            echo json_encode([
+                "success" => false,
+                "message" => "Invalid Token",
+                "error" => $e->getMessage()
+            ]);
+            exit();
+        }
+    }
 
-	$stmt->execute([
-		'address_line1' => $address_line1,
-		'address_line2' => $address_line2,
-		'city' => $city,
-		'state' => $state,
-		'postcode' => $postcode,
-		'country' => $country
-	]);
+    // Check if card info already exists for the user (support multiple cards per user)
+    if ($user_id) {
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM user_card_info WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $user_id]);
+        $cardExists = $stmt->fetchColumn();
 
-	$existing = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Insert new card info if no card exists for the user
+        if ($cardExists == 0) {
+            $stmt = $pdo->prepare("
+                INSERT INTO user_card_info (
+                    user_id,
+                    card_number,
+                    expiration
+                ) VALUES (
+                    :user_id,
+                    :card_number,
+                    :expiration
+                )
+            ");
+            try {
+                $expirationDate = new DateTime($expirationDate);
+                $expirationDate = $expirationDate->format('Y-m-d');
 
-	if ($existing) {
-		$address_id = $existing['id']; // Use the existing address
-	} else {
-		// Insert new address
-		$stmt = $pdo->prepare("
-			INSERT INTO addresses (
-				address_line1,
-				address_line2,
-				city,
-				state,
-				postcode,
-				country
-			) VALUES (
-				:address_line1,
-				:address_line2,
-				:city,
-				:state,
-				:postcode,
-				:country
-			)
-		");
+                $stmt->execute([
+                    'user_id' => $user_id,
+                    'card_number' => $cardNumber,
+                    'expiration' => $expirationDate
+                ]);
+            } catch (Exception $e) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Invalid expiration date format",
+                    "error" => $e->getMessage()
+                ]);
+                exit();
+            }
+        }
+    }
 
-		$stmt->execute([
-			'address_line1' => $address_line1,
-			'address_line2' => $address_line2,
-			'city' => $city,
-			'state' => $state,
-			'postcode' => $postcode,
-			'country' => $country
-		]);
+    // Create address
+    $stmt = $pdo->prepare("
+        SELECT id FROM addresses
+        WHERE address_line1 = :address_line1
+          AND address_line2 = :address_line2
+          AND city = :city
+          AND state = :state
+          AND postcode = :postcode
+          AND country = :country
+        LIMIT 1
+    ");
 
-		$address_id = $pdo->lastInsertId();
-	}
-	
-	// Create the order_details
-	$stmt = $pdo->prepare("
+    $stmt->execute([
+        'address_line1' => $address_line1,
+        'address_line2' => $address_line2,
+        'city' => $city,
+        'state' => $state,
+        'postcode' => $postcode,
+        'country' => $country
+    ]);
+
+    $existing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($existing) {
+        $address_id = $existing['id']; // Use the existing address
+    } else {
+        // Insert new address
+        $stmt = $pdo->prepare("
+            INSERT INTO addresses (
+                address_line1,
+                address_line2,
+                city,
+                state,
+                postcode,
+                country
+            ) VALUES (
+                :address_line1,
+                :address_line2,
+                :city,
+                :state,
+                :postcode,
+                :country
+            )
+        ");
+        $stmt->execute([
+            'address_line1' => $address_line1,
+            'address_line2' => $address_line2,
+            'city' => $city,
+            'state' => $state,
+            'postcode' => $postcode,
+            'country' => $country
+        ]);
+        $address_id = $pdo->lastInsertId();
+    }
+
+    // Create the order_details
+    $stmt = $pdo->prepare("
         INSERT INTO order_details (
-		user_id, 
-		address_id,
-		total
-		)
-        VALUES (
-		:userid, 
-		:address_id, 
-		:total
-	)");
-	
-	$stmt->execute([
-        ':userid' => $userid,
+            user_id, 
+            address_id,
+            total
+        ) VALUES (
+            :user_id, 
+            :address_id, 
+            :total
+        )
+    ");
+    
+    $stmt->execute([
+        ':user_id' => $user_id,
         ':address_id' => $address_id,
         ':total' => $total
     ]);
-	
-	$order_id = $pdo->lastInsertId();
+    
+    $order_id = $pdo->lastInsertId();
 
-    // Create the order record
+    // Create the order items
     $stmt = $pdo->prepare("
         INSERT INTO order_items (
-		order_id, 
-		product_id, 
-		quantity
-		)
-        VALUES (
-		:order_id,
-		:product_id,
-		:quantity
-    )");
-	
-	foreach ($cart as $item) {
-		$stmt->execute([
-			':order_id' => $order_id,
-			':product_id' => $item['product_id'],
-			':quantity' => $item['quantity']
-		]);
-	}
+            order_id, 
+            product_id, 
+            quantity
+        ) VALUES (
+            :order_id,
+            :product_id,
+            :quantity
+        )
+    ");
+    
+    foreach ($cart as $item) {
+        $stmt->execute([
+            ':order_id' => $order_id,
+            ':product_id' => $item['product_id'],
+            ':quantity' => $item['quantity']
+        ]);
+    }
 
-	$pdo->commit();
+    $pdo->commit();
 
     // Return a success response
     echo json_encode([
@@ -177,7 +229,7 @@ try {
         "message" => "Order processed successfully"
     ]);
 } catch (Exception $e) {
-	$pdo->rollBack();
+    $pdo->rollBack();
     echo json_encode([
         "success" => false,
         "message" => "Error processing order",
