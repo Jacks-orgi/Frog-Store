@@ -71,7 +71,7 @@ const ProductPage = () => {
     <div className="product-page">
       <div className="product-main">
         <div className="product-image-container">
-          {product.image_url ? <img src={product.image_url} alt={product.name} /> : <span>No Image Available</span>}
+          {product.image_url ? <img src={product.image_url} alt={product.name} loading="lazy" /> : <span>No Image Available</span>}
         </div>
         <div className="product-info">
           <h1>{product.name}</h1>
