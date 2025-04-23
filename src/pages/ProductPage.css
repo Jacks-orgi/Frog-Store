@@ -91,12 +91,12 @@
   font-size: 1em;
 }
 
-.buy-now {
+.add-to-basket {
   background-color: #87a97b;
   color: white;
 }
 
-.add-to-basket {
+.buy-now {
   background-color: #597050;
   color: white;
 }
@@ -149,4 +149,12 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
+}
+
+.product-card:hover {
+  background-color: var(--secondary-green);
+}
+
+.buy-now button:hover { /* fix */
+  background-color: var(--main-green);
 }

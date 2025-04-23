@@ -65,6 +65,11 @@ const ProductPage = () => {
     }
   };
 
+  const handleBuyNow = () => {
+    handleAddToBasket();
+    navigate("/basket");
+  };
+
   if (!product) return <div className="product-page"><p>Loading...</p></div>;
 
   return (
@@ -87,8 +92,8 @@ const ProductPage = () => {
                   onChange={(e) => setQuantity(Number(e.target.value))}
                   />
             </label>
-            <button className="buy-now">Buy Now</button>
             <button className="add-to-basket" onClick={handleAddToBasket}>Add to Basket</button>
+            <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
           </div>
           <p className="product-description">{product.description || 'No description available.'}</p>
         </div>
