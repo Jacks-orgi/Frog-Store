@@ -11,16 +11,16 @@ const Founders = () => {
       <h2>Founders</h2>
       <div className="founders-images">
         <div className="founder-card">
-          <img src={Founder1} alt="Founder 1" />
+          <img src={Founder1} alt="Founder 1" loading="lazy"/>
         </div>
         <div className="founder-card">
-          <img src={Founder2} alt="Founder 2" />
+          <img src={Founder2} alt="Founder 2" loading="lazy"/>
         </div>
         <div className="founder-card">
-          <img src={Founder3} alt="Founder 3" />
+          <img src={Founder3} alt="Founder 3" loading="lazy"/>
         </div>
         <div className="founder-card">
-          <img src={Founder4} alt="Founder 4" />
+          <img src={Founder4} alt="Founder 4" loading="lazy"/>
         </div>
       </div>
     </section>
