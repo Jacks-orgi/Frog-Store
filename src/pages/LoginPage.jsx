@@ -68,23 +68,9 @@ const LoginPage = () => {
         <p className="login-subtitle">Enter your email to sign in or create an account</p>
         
         <form onSubmit={handleSubmit} className="login-form">
-          <input
-            type="text"
-            value={usernameOrEmail}
-            onChange={(e) => setUsernameOrEmail(e.target.value)}
-            placeholder="Email or Username"
-            className="login-input"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="login-input"
-          />
-          
+          <input type="text" value={usernameOrEmail} onChange={(e) => setUsernameOrEmail(e.target.value)} placeholder="Email or Username" className="login-input" />
+          <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="login-input" />
           <button type="submit" className="login-button">Log In</button>
-          
           <Link to="/register" className="create-account-link">
             Don't have an account? Create one here
           </Link>

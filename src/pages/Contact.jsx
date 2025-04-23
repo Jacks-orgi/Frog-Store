@@ -9,8 +9,24 @@ const Contact = () => {
   const [feedback, setFeedback] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
+    if (!name || !email || !message)
+    {
+      setFeedback('Fill in all fields');
+      setIsSuccess(false);
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      setFeedback('Invalid email format');
+      setIsSuccess(false);      
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -26,7 +42,7 @@ const Contact = () => {
         setEmail('');
         setMessage('');
       } else {
-        setFeedback('Failed to send message.');
+        setFeedback(response.data.message);
         setIsSuccess(false);
       }
     } catch (err) {
@@ -43,38 +59,17 @@ const Contact = () => {
 
         <div className="form-group">
           <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
-            required
-          />
+          <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
         </div>
 
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Your email"
-            required
-          />
+          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email" />
         </div>
 
         <div className="form-group">
           <label htmlFor="message">Message</label>
-          <textarea
-            id="message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Your message"
-            rows="5"
-            required
-          />
+          <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Your message" rows="5" />
         </div>
 
         <button type="submit" className="submit-button">Submit</button>
